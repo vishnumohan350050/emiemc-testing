@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMI/EMC Testing — Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B2A4A;
+    --navy-2:#081D34;
+    --navy-3:#123657;
+    --cyan:#0EA5C4;
+    --cyan-soft:#E3F6FA;
+    --cyan-deep:#0A7E96;
+    --amber:#C88A2E;
+    --amber-soft:#FBF1DE;
+    --green:#1F9160;
+    --green-soft:#E4F5EC;
+    --violet:#6647B8;
+    --violet-soft:#EAE6F7;
+    --rust:#B5573A;
+    --rust-soft:#FBEAE5;
+    --bg:#F2F5F8;
+    --surface:#FFFFFF;
+    --border:#E2E7ED;
+    --text:#12202E;
+    --text-mute:#5C6D7C;
+    --text-faint:#93A2AF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'IBM Plex Sans',Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  .shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+  @media (max-width:900px){.shell{grid-template-columns:1fr;}.sidebar{display:none;}}
+
+  .sidebar{background:var(--navy-2);color:#C7D3DD;padding:22px 0;display:flex;flex-direction:column;}
+  .sidebar .brand{display:flex;align-items:center;gap:10px;padding:0 20px 22px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:18px;}
+  .sidebar .brand .mark{width:34px;height:34px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:700;color:#04222c;font-size:14px;}
+  .sidebar .brand .name{font-size:13px;font-weight:600;color:#fff;line-height:1.3;}
+  .sidebar .brand .sub{font-size:10.5px;color:#7F92A3;letter-spacing:.03em;}
+
+  .nav-section{padding:0 14px;margin-bottom:20px;}
+  .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:#5E7286;padding:0 10px;margin-bottom:8px;font-weight:600;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:6px;font-size:13px;color:#B7C4CF;text-decoration:none;margin-bottom:2px;position:relative;font-weight:500;}
+  .nav-item .ic{width:16px;text-align:center;font-size:13px;opacity:.85;}
+  .nav-item:hover{background:rgba(255,255,255,.05);color:#fff;}
+  .nav-item.active{background:rgba(14,165,196,.14);color:#fff;}
+  .nav-item.active::before{content:"";position:absolute;left:-14px;top:6px;bottom:6px;width:3px;background:var(--cyan);border-radius:0 3px 3px 0;}
+  .nav-item .count{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10.5px;background:rgba(255,255,255,.08);padding:1px 7px;border-radius:10px;color:#DCE5EC;}
+
+  .sidebar-foot{margin-top:auto;padding:14px 20px 4px;border-top:1px solid rgba(255,255,255,.08);}
+  .sidebar-foot .org{font-size:12px;color:#DCE5EC;font-weight:600;}
+  .sidebar-foot .role{font-size:10.5px;color:#7F92A3;}
+
+  .main{display:flex;flex-direction:column;min-width:0;}
+  .topbar{height:64px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5;}
+  .topbar .crumb{font-size:12px;color:var(--text-faint);}
+  .topbar .crumb b{color:var(--text);font-weight:600;}
+  .topbar-right{display:flex;align-items:center;gap:18px;}
+  .search{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:7px 12px;font-size:12.5px;color:var(--text-faint);width:240px;}
+  .bell{width:34px;height:34px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;color:var(--text-mute);}
+  .bell .dot{position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;background:var(--rust);}
+  .avatar{width:34px;height:34px;border-radius:8px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace;}
+
+  .content{padding:28px 32px 60px;max-width:1360px;width:100%;margin:0 auto;}
+
+  .hero{position:relative;overflow:hidden;background:linear-gradient(120deg,var(--navy) 0%,var(--navy-3) 100%);border-radius:14px;padding:26px 34px 24px;color:#fff;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .hero .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;font-weight:600;}
+  .hero h1{margin:0 0 4px;font-size:21px;font-weight:600;letter-spacing:-.01em;}
+  .hero p{margin:0;font-size:12.5px;color:#B9CADA;}
+  .hero-stats{display:flex;gap:26px;position:relative;z-index:2;}
+  .hero-stats .s{text-align:right;}
+  .hero-stats .s .n{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:#fff;}
+  .hero-stats .s .l{font-size:10.5px;color:#8FA6BA;margin-top:2px;}
+  .wave{position:absolute;bottom:0;left:0;width:100%;height:46px;opacity:.4;}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
+  @media(max-width:1100px){.kpi-row{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:640px){.kpi-row{grid-template-columns:1fr 1fr;}}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+  .kpi .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .kpi .icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+  .kpi .num{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;line-height:1;color:var(--navy);}
+  .kpi .lbl{font-size:11px;color:var(--text-mute);margin-top:6px;}
+  .kpi.new .icon{background:var(--cyan-soft);color:var(--cyan-deep);}
+  .kpi.pay .icon{background:var(--amber-soft);color:var(--amber);}
+  .kpi.test .icon{background:var(--violet-soft);color:var(--violet);}
+  .kpi.done .icon{background:var(--green-soft);color:var(--green);}
+  .kpi.rev .icon{background:#EEF1F4;color:var(--text-mute);}
+
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:22px;}
+  .panel-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;border-bottom:1px dashed var(--border);flex-wrap:wrap;gap:10px;}
+  .panel-head h2{margin:0;font-size:15px;font-weight:600;color:var(--navy);}
+  .filters{display:flex;gap:8px;}
+  .filter{
+    font-size:11.5px;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg);
+    color:var(--text-mute);font-weight:500;
+  }
+  .filter.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  table{width:100%;border-collapse:collapse;}
+  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);padding:12px 22px;font-weight:600;background:#FAFBFC;}
+  td{padding:13px 22px;font-size:13px;border-top:1px solid var(--border);color:var(--text);}
+  td.id{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text-mute);}
+  tr:hover td{background:#FAFCFD;}
+  .client-cell .name{font-weight:500;}
+  .client-cell .meta{font-size:11px;color:var(--text-faint);margin-top:2px;}
+  .tester-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-mute);}
+  .tester-chip .av{width:20px;height:20px;border-radius:5px;background:var(--cyan-soft);color:var(--cyan-deep);font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+  .pill.new{background:var(--cyan-soft);color:var(--cyan-deep);} .pill.new::before{background:var(--cyan);}
+  .pill.quote{background:var(--amber-soft);color:var(--amber);} .pill.quote::before{background:var(--amber);}
+  .pill.pay{background:var(--rust-soft);color:var(--rust);} .pill.pay::before{background:var(--rust);}
+  .pill.invoice{background:var(--violet-soft);color:var(--violet);} .pill.invoice::before{background:var(--violet);}
+  .pill.testing{background:var(--violet-soft);color:var(--violet);} .pill.testing::before{background:var(--violet);}
+  .pill.done{background:var(--green-soft);color:var(--green);} .pill.done::before{background:var(--green);}
+
+  .row-link{color:var(--cyan-deep);font-size:12px;font-weight:600;text-decoration:none;}
+
+  /* stage distribution */
+  .stage-grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;align-items:start;}
+  @media(max-width:980px){.stage-grid{grid-template-columns:1fr;}}
+  .stage-bars{padding:20px 22px 22px;}
+  .stage-bar-row{margin-bottom:14px;}
+  .stage-bar-row:last-child{margin-bottom:0;}
+  .stage-bar-row .top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;}
+  .stage-bar-row .top .name{color:var(--text);font-weight:500;}
+  .stage-bar-row .top .n{font-family:'IBM Plex Mono',monospace;color:var(--text-mute);}
+  .track{height:8px;border-radius:4px;background:var(--bg);overflow:hidden;}
+  .track .fill{height:100%;border-radius:4px;}
+
+  .quick-card{background:var(--navy);color:#fff;border-radius:12px;padding:20px 22px;}
+  .quick-card .tag{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+  .quick-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid rgba(255,255,255,.1);font-size:12.5px;}
+  .quick-item:first-of-type{border-top:none;}
+  .quick-item .lbl{color:#C7D3DD;}
+  .quick-item .val{font-family:'IBM Plex Mono',monospace;color:#fff;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">C</div>
+      <div>
+        <div class="name">C-DAC WebPortal</div>
+        <div class="sub">EMI / EMC Admin</div>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Operations</div>
+      <a class="nav-item active"><span class="ic">&#9635;</span> Dashboard</a>
+      <a class="nav-item"><span class="ic">&#128196;</span> Requests Queue <span class="count">14</span></a>
+      <a class="nav-item"><span class="ic">&#8383;</span> Quotations</a>
+      <a class="nav-item"><span class="ic">&#128179;</span> Payments &amp; Invoices</a>
+      <a class="nav-item"><span class="ic">&#128203;</span> Completed Requests</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Resources</div>
+      <a class="nav-item"><span class="ic">&#128101;</span> Clients</a>
+      <a class="nav-item"><span class="ic">&#129513;</span> Testers</a>
+      <a class="nav-item"><span class="ic">&#127970;</span> Labs &amp; Chambers</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">System</div>
+      <a class="nav-item"><span class="ic">&#128202;</span> Reports</a>
+      <a class="nav-item"><span class="ic">&#9881;</span> Settings</a>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="org">EMI/EMC Lab, Bengaluru</div>
+      <div class="role">Org Admin</div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb">EMI/EMC Admin &nbsp;/&nbsp; <b>Dashboard</b></div>
+      <div class="topbar-right">
+        <div class="search">&#128269;&nbsp; Search SR ID, client, device…</div>
+        <div class="bell">&#128276;<span class="dot"></span></div>
+        <div class="avatar">AD</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- HERO -->
+      <div class="hero">
+        <div>
+          <div class="eyebrow">// EMI / EMC Admin Console</div>
+          <h1>Good morning, Admin</h1>
+          <p>14 requests currently need action across the pipeline.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="s"><div class="n">04</div><div class="l">New</div></div>
+          <div class="s"><div class="n">06</div><div class="l">Awaiting Payment</div></div>
+          <div class="s"><div class="n">03</div><div class="l">Testing</div></div>
+          <div class="s"><div class="n">21</div><div class="l">Completed</div></div>
+        </div>
+        <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
+          <polyline fill="none" stroke="#0EA5C4" stroke-width="1.6"
+            points="0,50.0 40,69.1 80,68.9 120,49.6 160,30.7 200,31.3 240,50.7 280,69.5 320,68.6 360,48.9 400,30.4 440,31.6 480,51.4 520,50.0 524,48.0 528,54.0 536,42.0 544,62.0 552,34.0 560,70.0 568,26.0 576,78.0 584,18.0 592,86.0 600,10.0 608,86.0 616,18.0 624,78.0 632,26.0 640,70.0 648,34.0 656,62.0 664,42.0 672,54.0 680,50.0 720,52.1 760,70.1 800,67.7 840,47.5 880,29.8 920,32.5 960,52.9 1000,70.4 1040,67.3 1080,46.8 1120,29.5 1160,32.9 1200,53.6"/>
+        </svg>
+      </div>
+
+      <!-- KPI ROW -->
+      <div class="kpi-row">
+        <div class="kpi new"><div class="top"><div class="icon">&#128233;</div></div><div class="num">04</div><div class="lbl">New / Awaiting Quotation</div></div>
+        <div class="kpi pay"><div class="top"><div class="icon">&#8383;</div></div><div class="num">06</div><div class="lbl">Awaiting Payment</div></div>
+        <div class="kpi test"><div class="top"><div class="icon">&#9889;</div></div><div class="num">03</div><div class="lbl">Testing in Progress</div></div>
+        <div class="kpi done"><div class="top"><div class="icon">&#10003;</div></div><div class="num">21</div><div class="lbl">Completed (This Month)</div></div>
+        <div class="kpi rev"><div class="top"><div class="icon">&#128202;</div></div><div class="num">₹8.4L</div><div class="lbl">Invoiced (This Month)</div></div>
+      </div>
+
+      <!-- REQUEST QUEUE -->
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Requests Queue</h2>
+          <div class="filters">
+            <span class="filter on">All</span>
+            <span class="filter">New</span>
+            <span class="filter">Payment</span>
+            <span class="filter">Testing</span>
+          </div>
+        </div>
+        <table>
+          <tr><th>SR ID</th><th>Client</th><th>Device</th><th>Stage</th><th>Tester</th><th>Updated</th><th></th></tr>
+          <tr>
+            <td class="id">2350142</td>
+            <td class="client-cell"><span class="name">ABC Instruments Pvt. Ltd.</span><span class="meta">Bengaluru</span></td>
+            <td>RF Power Analyzer</td>
+            <td><span class="pill new">Generate Quotation</span></td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">—</td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">15 Jul 2026</td>
+            <td><a class="row-link">Open →</a></td>
+          </tr>
+          <tr>
+            <td class="id">2350138</td>
+            <td class="client-cell"><span class="name">ABC Instruments Pvt. Ltd.</span><span class="meta">Bengaluru</span></td>
+            <td>Signal Generator SG-40</td>
+            <td><span class="pill quote">Quotation Sent</span></td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">—</td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">10 Jul 2026</td>
+            <td><a class="row-link">Open →</a></td>
+          </tr>
+          <tr>
+            <td class="id">2350130</td>
+            <td class="client-cell"><span class="name">XYZ Electronics</span><span class="meta">Pune</span></td>
+            <td>EMI Filter Unit</td>
+            <td><span class="pill pay">Payment Received — Invoice</span></td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">—</td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">08 Jul 2026</td>
+            <td><a class="row-link">Open →</a></td>
+          </tr>
+          <tr>
+            <td class="id">2350120</td>
+            <td class="client-cell"><span class="name">ABC Instruments Pvt. Ltd.</span><span class="meta">Bengaluru</span></td>
+            <td>Oscilloscope OS-12</td>
+            <td><span class="pill testing">Testing in Progress</span></td>
+            <td><span class="tester-chip"><span class="av">RK</span> R. Kumar</span></td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">02 Jul 2026</td>
+            <td><a class="row-link">Open →</a></td>
+          </tr>
+          <tr>
+            <td class="id">2350115</td>
+            <td class="client-cell"><span class="name">PQR Systems</span><span class="meta">Chennai</span></td>
+            <td>Motor Drive Controller</td>
+            <td><span class="pill testing">Testing in Progress</span></td>
+            <td><span class="tester-chip"><span class="av">SN</span> S. Nair</span></td>
+            <td class="mono" style="font-size:12px;color:var(--text-faint);">28 Jun 2026</td>
+            <td><a class="row-link">Open →</a></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- STAGE DISTRIBUTION + QUICK STATS -->
+      <div class="stage-grid">
+        <div class="panel">
+          <div class="panel-head"><h2>Requests by Stage</h2></div>
+          <div class="stage-bars">
+            <div class="stage-bar-row">
+              <div class="top"><span class="name">Generate Quotation</span><span class="n">04</span></div>
+              <div class="track"><div class="fill" style="width:28%;background:var(--cyan);"></div></div>
+            </div>
+            <div class="stage-bar-row">
+              <div class="top"><span class="name">Receive Payment</span><span class="n">06</span></div>
+              <div class="track"><div class="fill" style="width:43%;background:var(--rust);"></div></div>
+            </div>
+            <div class="stage-bar-row">
+              <div class="top"><span class="name">Generate Invoice</span><span class="n">02</span></div>
+              <div class="track"><div class="fill" style="width:14%;background:var(--amber);"></div></div>
+            </div>
+            <div class="stage-bar-row">
+              <div class="top"><span class="name">Accept Assignment</span><span class="n">01</span></div>
+              <div class="track"><div class="fill" style="width:7%;background:var(--violet);"></div></div>
+            </div>
+            <div class="stage-bar-row">
+              <div class="top"><span class="name">Perform Test</span><span class="n">03</span></div>
+              <div class="track"><div class="fill" style="width:21%;background:var(--violet);"></div></div>
+            </div>
+            <div class="stage-bar-row">
+              <div class="top"><span class="name">Upload Results</span><span class="n">00</span></div>
+              <div class="track"><div class="fill" style="width:2%;background:var(--green);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-card">
+          <div class="tag">This Week</div>
+          <div class="quick-item"><span class="lbl">New requests</span><span class="val">05</span></div>
+          <div class="quick-item"><span class="lbl">Quotations sent</span><span class="val">04</span></div>
+          <div class="quick-item"><span class="lbl">Payments received</span><span class="val">₹2.1L</span></div>
+          <div class="quick-item"><span class="lbl">Reports published</span><span class="val">03</span></div>
+          <div class="quick-item"><span class="lbl">Avg. turnaround</span><span class="val">9 days</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
