@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EMI/EMC Testing — Client Dashboard</title>
+<title>Track Request — EMI/EMC Testing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -238,6 +238,70 @@
   .site-footer p{margin:0 0 5px;font-size:10.5px;color:var(--text-faint);}
   .site-footer a{color:var(--cyan-deep);text-decoration:none;}
   .site-footer .copyright{font-size:10px;color:#AEB9C3;}
+
+  .section-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:20px;}
+  .section-card h2{margin:0 0 4px;font-size:15px;font-weight:600;color:var(--navy);}
+  .section-card .sub{font-size:12px;color:var(--text-mute);margin-bottom:16px;}
+  .field-grid{display:grid;gap:14px;}
+  .field-grid.c2{grid-template-columns:1fr 1fr;}
+  .field-grid.c3{grid-template-columns:1fr 1fr 1fr;}
+  .field-grid.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  @media(max-width:800px){.field-grid.c2,.field-grid.c3,.field-grid.c4{grid-template-columns:1fr;}}
+  .box-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);margin-bottom:5px;display:block;font-weight:600;}
+  .field-value{border:1px solid var(--border);background:#FAFBFC;border-radius:7px;padding:9px 11px;font-size:12.5px;color:var(--text-mute);min-height:18px;}
+  .field-value.filled{color:var(--text);background:#F3F8FA;border-color:#D7E9EE;font-weight:500;}
+
+  .stepper{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow-x:auto;margin-bottom:20px;}
+  .stepper .step{flex:1;min-width:108px;text-align:center;padding:12px 6px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);font-weight:600;white-space:nowrap;}
+  .stepper .step:last-child{border-right:none;}
+  .stepper .step .n{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;border:1.5px solid var(--border);color:var(--text-faint);font-size:10px;margin-right:4px;}
+  .stepper .step.active{color:var(--navy);background:var(--cyan-soft);}
+  .stepper .step.active .n{background:var(--cyan);border-color:var(--cyan);color:#04222c;}
+  .stepper .step.done{color:var(--green);}
+  .stepper .step.done .n{background:var(--green);border-color:var(--green);color:#fff;}
+
+  .flow-track{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+  .flow-track .node{background:#EEF1F4;border:1px solid var(--border);border-radius:7px;padding:9px 14px;font-size:11.5px;font-weight:600;color:var(--text-mute);}
+  .flow-track .node.done{background:var(--green-soft);border-color:#BFE3CE;color:var(--green);}
+  .flow-track .node.current{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .flow-track .arrow{color:var(--text-faint);align-self:center;font-size:13px;}
+
+  .upload-box{border:1.5px dashed var(--border);border-radius:7px;padding:9px 12px;font-size:11.5px;color:var(--text-faint);background:#FAFBFC;display:flex;align-items:center;justify-content:space-between;}
+  .upload-box.done{background:var(--green-soft);border-style:solid;border-color:#BFE3CE;color:var(--green);}
+
+  .toggle-yn{display:flex;gap:8px;}
+  .toggle-yn button{border:1px solid var(--border);background:#fff;padding:7px 18px;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;color:var(--text-mute);}
+  .toggle-yn button.sel{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  .side-note{background:var(--cyan-soft);border:1px solid #BFE6EF;color:var(--cyan-deep);font-size:11.5px;padding:10px 14px;border-radius:8px;margin-bottom:16px;}
+
+  .checklist-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--border);font-size:12.5px;}
+  .checklist-row:first-child{border-top:none;}
+  .checklist-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--cyan-deep);flex-shrink:0;}
+  .checklist-row .t-name{flex:1;font-weight:500;}
+  .checklist-row .t-std{color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-size:11px;width:150px;}
+  .checklist-row .t-qty{width:50px;text-align:center;}
+
+  .wizard-actions{display:flex;justify-content:space-between;gap:10px;margin-top:4px;}
+  .wizard-actions .grp{display:flex;gap:10px;}
+
+  .breadcrumb-link{color:var(--cyan-deep);text-decoration:none;}
+
+  /* additional classes from admin dashboard, shared for list pages on both roles */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;}
+  .filter{font-size:11.5px;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-mute);font-weight:500;text-decoration:none;display:inline-block;}
+  .filter.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .client-cell .name{font-weight:500;}
+  .client-cell .meta{font-size:11px;color:var(--text-faint);margin-top:2px;}
+  .tester-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-mute);}
+  .tester-chip .av{width:20px;height:20px;border-radius:5px;background:var(--cyan-soft);color:var(--cyan-deep);font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .pill.new{background:var(--cyan-soft);color:var(--cyan-deep);} .pill.new::before{background:var(--cyan);}
+  .pill.pay{background:var(--rust-soft);color:var(--rust);} .pill.pay::before{background:var(--rust);}
+  .pill.invoice{background:#EAE6F7;color:#6647B8;} .pill.invoice::before{background:#6647B8;}
+  .pagination{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:14px 22px;font-size:11.5px;color:var(--text-mute);}
+  .pagination button{border:1px solid var(--border);background:#fff;border-radius:6px;padding:5px 11px;font-size:11.5px;cursor:pointer;color:var(--text-mute);font-family:inherit;}
+  .pagination button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+
 </style>
 </head>
 <body>
@@ -250,7 +314,6 @@
   </div>
 <div class="shell">
 
-  <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar">
     <div class="brand">
       <div class="mark">C</div>
@@ -266,8 +329,8 @@
     </div>
     <div class="nav-section">
       <div class="nav-label">EMI / EMC Testing</div>
-      <a class="nav-item active" href="client-dashboard.html"><span class="ic">&#9635;</span> Dashboard</a>
-      <a class="nav-item" href="client-service-requests.html"><span class="ic">&#128196;</span> Service Requests</a>
+      <a class="nav-item" href="client-dashboard.html"><span class="ic">&#9635;</span> Dashboard</a>
+      <a class="nav-item active" href="client-service-requests.html"><span class="ic">&#128196;</span> Service Requests</a>
       <a class="nav-item" href="client-quotations.html"><span class="ic">&#8383;</span> Quotations</a>
       <a class="nav-item" href="client-invoices.html"><span class="ic">&#128179;</span> Invoices &amp; Payments</a>
       <a class="nav-item" href="client-reports.html"><span class="ic">&#128203;</span> Test Reports</a>
@@ -286,7 +349,7 @@
   <!-- ============ MAIN ============ -->
   <div class="main">
     <div class="topbar">
-      <div class="crumb">EMI/EMC Testing &nbsp;/&nbsp; <b>Dashboard</b></div>
+      <div class="crumb"><a class="breadcrumb-link" href="client-dashboard.html">Dashboard</a> / <a class="breadcrumb-link" href="client-service-requests.html">Service Requests</a> / Track #2350138</div>
       <div class="topbar-right">
         <div class="search">&#128269;&nbsp; Search requests, devices…</div>
         <div class="bell">&#128276;<span class="dot"></span></div>
@@ -296,111 +359,35 @@
 
     <div class="content">
 
-      <!-- HERO -->
-      <div class="hero">
-        <div class="eyebrow">// EMI / EMC Test Service Portal</div>
-        <h1>Welcome back, ABC Instruments</h1>
-        <p>Track your submitted test requests, review quotations, and download reports — all in one place. Your device data and documents carry over automatically from your WebPortal account.</p>
-        <div class="hero-actions">
-          <a href="client-new-request.html" class="btn primary" style="text-decoration:none;">+ New Service Request</a>
-          <a href="client-service-requests.html" class="btn ghost" style="text-decoration:none;">View Drafts (2)</a>
+      <div class="section-card">
+        <h2 style="font-size:17px;">Signal Generator SG-40 <span class="pill quote" style="margin-left:8px;">Quotation Sent</span></h2>
+        <div class="sub">Request #2350138 &middot; Track your submitted request through the Admin workflow.</div>
+        <div class="flow-track">
+          <div class="node done">Submitted</div><div class="arrow">&rarr;</div>
+          <div class="node current">Quotation Sent</div><div class="arrow">&rarr;</div>
+          <div class="node">Payment</div><div class="arrow">&rarr;</div>
+          <div class="node">Invoice</div><div class="arrow">&rarr;</div>
+          <div class="node">Assigned</div><div class="arrow">&rarr;</div>
+          <div class="node">Testing</div><div class="arrow">&rarr;</div>
+          <div class="node">Report</div>
         </div>
-        <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
-          <polyline fill="none" stroke="#0EA5C4" stroke-width="1.6"
-            points="0,50.0 40,69.1 80,68.9 120,49.6 160,30.7 200,31.3 240,50.7 280,69.5 320,68.6 360,48.9 400,30.4 440,31.6 480,51.4 520,50.0 524,48.0 528,54.0 536,42.0 544,62.0 552,34.0 560,70.0 568,26.0 576,78.0 584,18.0 592,86.0 600,10.0 608,86.0 616,18.0 624,78.0 632,26.0 640,70.0 648,34.0 656,62.0 664,42.0 672,54.0 680,50.0 720,52.1 760,70.1 800,67.7 840,47.5 880,29.8 920,32.5 960,52.9 1000,70.4 1040,67.3 1080,46.8 1120,29.5 1160,32.9 1200,53.6"/>
-        </svg>
+        <div class="wizard-actions"><div></div><div class="grp">
+          <button class="btn secondary">&darr; Download Quotation (PDF)</button>
+          <a href="client-invoices.html" class="btn primary" style="text-decoration:none;">Accept Quotation &amp; Proceed to Payment &rarr;</a>
+        </div></div>
       </div>
 
-      <!-- KPI ROW -->
-      <div class="kpi-row">
-        <div class="kpi draft">
-          <div class="top"><div class="icon">&#128221;</div></div>
-          <div class="num">02</div>
-          <div class="lbl">Draft Requests</div>
-        </div>
-        <div class="kpi progress">
-          <div class="top"><div class="icon">&#9203;</div></div>
-          <div class="num">03</div>
-          <div class="lbl">Submitted / In Progress</div>
-        </div>
-        <div class="kpi quote">
-          <div class="top"><div class="icon">&#8383;</div></div>
-          <div class="num">01</div>
-          <div class="lbl">Awaiting Quotation Acceptance</div>
-        </div>
-        <div class="kpi done">
-          <div class="top"><div class="icon">&#10003;</div></div>
-          <div class="num">05</div>
-          <div class="lbl">Completed Tests</div>
-        </div>
-      </div>
-
-      <!-- PANEL GRID -->
-      <div class="panel-grid">
-        <div class="panel">
-          <div class="panel-head">
-            <h2>My Service Requests</h2>
-            <a href="client-service-requests.html">View all →</a>
-          </div>
-          <table>
-            <tr><th>SR ID</th><th>Device</th><th>Stage</th><th>Updated</th><th></th></tr>
-            <tr>
-              <td class="id">2350155</td>
-              <td class="device-cell"><span class="name">Digital Multimeter DX-200</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill draft">Draft</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">19 Jul 2026</td>
-              <td><a class="row-link" href="client-new-request.html">Resume →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350142</td>
-              <td class="device-cell"><span class="name">RF Power Analyzer</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill submitted">Submitted</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">15 Jul 2026</td>
-              <td><a class="row-link" href="client-request-tracking.html">View →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350138</td>
-              <td class="device-cell"><span class="name">Signal Generator SG-40</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill quote">Quotation Sent</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">10 Jul 2026</td>
-              <td><a class="row-link" href="client-request-tracking.html">Review →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350120</td>
-              <td class="device-cell"><span class="name">Oscilloscope OS-12</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill testing">Testing</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">02 Jul 2026</td>
-              <td><a class="row-link" href="client-request-tracking.html">Track →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350098</td>
-              <td class="device-cell"><span class="name">Power Supply Unit PSU-5</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill done">Completed</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">21 Jun 2026</td>
-              <td><a class="row-link" href="client-reports.html">Report ↓</a></td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="side-stack">
-          <div class="panel">
-            <div class="panel-head">
-              <h2>Registered Devices</h2>
-              <a href="client-service-requests.html">Manage →</a>
-            </div>
-            <div class="devices-list">
-              <div class="device-row"><span class="dot"></span><div class="info"><div class="n">Digital Multimeter DX-200</div><div class="s">DX200-0091</div></div></div>
-              <div class="device-row"><span class="dot"></span><div class="info"><div class="n">RF Power Analyzer</div><div class="s">RFA-4471</div></div></div>
-              <div class="device-row"><span class="dot"></span><div class="info"><div class="n">Oscilloscope OS-12</div><div class="s">OS12-1187</div></div></div>
-            </div>
-          </div>
-
-          <div class="help-card">
-            <div class="tag">Need a hand?</div>
-            <h3>Not sure which tests apply?</h3>
-            <p>Check the EMI/EMC testing guide or reach your assigned lab coordinator before starting a new request.</p>
-            <button class="btn primary">View Testing Guide</button>
-          </div>
+      <div class="section-card">
+        <h2>Quotation Summary</h2>
+        <table>
+          <tr><th>Test / Activity</th><th>Specification</th><th>Qty</th><th>Rate (&#8377;)</th><th>Amount (&#8377;)</th></tr>
+          <tr><td>Radiated Emission Test</td><td>CISPR 32</td><td>1</td><td>18,000</td><td>18,000</td></tr>
+          <tr><td>Conducted Emission Test</td><td>CISPR 32</td><td>1</td><td>12,500</td><td>12,500</td></tr>
+        </table>
+        <div class="field-grid c3" style="margin-top:12px;">
+          <div><span class="box-label">Quote Date</span><div class="field-value filled">10 Jul 2026</div></div>
+          <div><span class="box-label">Expiry Date</span><div class="field-value filled">10 Aug 2026</div></div>
+          <div><span class="box-label">Total Amount</span><div class="field-value filled">&#8377; 30,500</div></div>
         </div>
       </div>
 

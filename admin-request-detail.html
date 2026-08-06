@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EMI/EMC Testing — Client Dashboard</title>
+<title>Request Detail — EMI/EMC Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -238,6 +238,55 @@
   .site-footer p{margin:0 0 5px;font-size:10.5px;color:var(--text-faint);}
   .site-footer a{color:var(--cyan-deep);text-decoration:none;}
   .site-footer .copyright{font-size:10px;color:#AEB9C3;}
+
+  .section-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:20px;}
+  .section-card h2{margin:0 0 4px;font-size:15px;font-weight:600;color:var(--navy);}
+  .section-card .sub{font-size:12px;color:var(--text-mute);margin-bottom:16px;}
+  .field-grid{display:grid;gap:14px;}
+  .field-grid.c2{grid-template-columns:1fr 1fr;}
+  .field-grid.c3{grid-template-columns:1fr 1fr 1fr;}
+  .field-grid.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  @media(max-width:800px){.field-grid.c2,.field-grid.c3,.field-grid.c4{grid-template-columns:1fr;}}
+  .box-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);margin-bottom:5px;display:block;font-weight:600;}
+  .field-value{border:1px solid var(--border);background:#FAFBFC;border-radius:7px;padding:9px 11px;font-size:12.5px;color:var(--text-mute);min-height:18px;}
+  .field-value.filled{color:var(--text);background:#F3F8FA;border-color:#D7E9EE;font-weight:500;}
+
+  .stepper{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow-x:auto;margin-bottom:20px;}
+  .stepper .step{flex:1;min-width:108px;text-align:center;padding:12px 6px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);font-weight:600;white-space:nowrap;}
+  .stepper .step:last-child{border-right:none;}
+  .stepper .step .n{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;border:1.5px solid var(--border);color:var(--text-faint);font-size:10px;margin-right:4px;}
+  .stepper .step.active{color:var(--navy);background:var(--cyan-soft);}
+  .stepper .step.active .n{background:var(--cyan);border-color:var(--cyan);color:#04222c;}
+  .stepper .step.done{color:var(--green);}
+  .stepper .step.done .n{background:var(--green);border-color:var(--green);color:#fff;}
+
+  .flow-track{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+  .flow-track .node{background:#EEF1F4;border:1px solid var(--border);border-radius:7px;padding:9px 14px;font-size:11.5px;font-weight:600;color:var(--text-mute);}
+  .flow-track .node.done{background:var(--green-soft);border-color:#BFE3CE;color:var(--green);}
+  .flow-track .node.current{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .flow-track .arrow{color:var(--text-faint);align-self:center;font-size:13px;}
+
+  .upload-box{border:1.5px dashed var(--border);border-radius:7px;padding:9px 12px;font-size:11.5px;color:var(--text-faint);background:#FAFBFC;display:flex;align-items:center;justify-content:space-between;}
+  .upload-box.done{background:var(--green-soft);border-style:solid;border-color:#BFE3CE;color:var(--green);}
+
+  .toggle-yn{display:flex;gap:8px;}
+  .toggle-yn button{border:1px solid var(--border);background:#fff;padding:7px 18px;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;color:var(--text-mute);}
+  .toggle-yn button.sel{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  .side-note{background:var(--cyan-soft);border:1px solid #BFE6EF;color:var(--cyan-deep);font-size:11.5px;padding:10px 14px;border-radius:8px;margin-bottom:16px;}
+
+  .checklist-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--border);font-size:12.5px;}
+  .checklist-row:first-child{border-top:none;}
+  .checklist-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--cyan-deep);flex-shrink:0;}
+  .checklist-row .t-name{flex:1;font-weight:500;}
+  .checklist-row .t-std{color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-size:11px;width:150px;}
+  .checklist-row .t-qty{width:50px;text-align:center;}
+
+  .wizard-actions{display:flex;justify-content:space-between;gap:10px;margin-top:4px;}
+  .wizard-actions .grp{display:flex;gap:10px;}
+
+  .breadcrumb-link{color:var(--cyan-deep);text-decoration:none;}
+
 </style>
 </head>
 <body>
@@ -250,159 +299,166 @@
   </div>
 <div class="shell">
 
-  <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar">
     <div class="brand">
       <div class="mark">C</div>
       <div>
         <div class="name">C-DAC WebPortal</div>
-        <div class="sub">EMI / EMC Testing</div>
+        <div class="sub">EMI / EMC Admin</div>
       </div>
     </div>
     <div class="nav-section">
-      <div class="nav-label">Workspace</div>
-      <a class="nav-item"><span class="ic">&#8962;</span> WebPortal Home</a>
-      <a class="nav-item"><span class="ic">&#9881;</span> My Devices</a>
+      <div class="nav-label">Operations</div>
+      <a class="nav-item" href="admin-dashboard.html"><span class="ic">&#9635;</span> Dashboard</a>
+      <a class="nav-item active" href="admin-requests-queue.html"><span class="ic">&#128196;</span> Requests Queue <span class="count">14</span></a>
+      <a class="nav-item" href="admin-quotations.html"><span class="ic">&#8383;</span> Quotations</a>
+      <a class="nav-item" href="admin-payments-invoices.html"><span class="ic">&#128179;</span> Payments &amp; Invoices</a>
+      <a class="nav-item" href="admin-completed-requests.html"><span class="ic">&#128203;</span> Completed Requests</a>
     </div>
     <div class="nav-section">
-      <div class="nav-label">EMI / EMC Testing</div>
-      <a class="nav-item active" href="client-dashboard.html"><span class="ic">&#9635;</span> Dashboard</a>
-      <a class="nav-item" href="client-service-requests.html"><span class="ic">&#128196;</span> Service Requests</a>
-      <a class="nav-item" href="client-quotations.html"><span class="ic">&#8383;</span> Quotations</a>
-      <a class="nav-item" href="client-invoices.html"><span class="ic">&#128179;</span> Invoices &amp; Payments</a>
-      <a class="nav-item" href="client-reports.html"><span class="ic">&#128203;</span> Test Reports</a>
+      <div class="nav-label">Resources</div>
+      <a class="nav-item" href="admin-clients.html"><span class="ic">&#128101;</span> Clients</a>
+      <a class="nav-item" href="admin-testers.html"><span class="ic">&#129513;</span> Testers</a>
+      <a class="nav-item" href="admin-labs.html"><span class="ic">&#127970;</span> Labs &amp; Chambers</a>
     </div>
     <div class="nav-section">
-      <div class="nav-label">Account</div>
-      <a class="nav-item"><span class="ic">&#128100;</span> Organization Profile</a>
-      <a class="nav-item"><span class="ic">&#9432;</span> Help &amp; Support</a>
+      <div class="nav-label">System</div>
+      <a class="nav-item"><span class="ic">&#128202;</span> Reports</a>
+      <a class="nav-item"><span class="ic">&#9881;</span> Settings</a>
     </div>
     <div class="sidebar-foot">
-      <div class="org">ABC Instruments Pvt. Ltd.</div>
-      <div class="role">Client Account</div>
-    </div>
+      <div class="org">EMI/EMC Lab, Bengaluru</div>
+      <div class="role">Org Admin</div>
+  </div>
   </aside>
 
   <!-- ============ MAIN ============ -->
   <div class="main">
     <div class="topbar">
-      <div class="crumb">EMI/EMC Testing &nbsp;/&nbsp; <b>Dashboard</b></div>
+      <div class="crumb"><a class="breadcrumb-link" href="admin-dashboard.html">Admin Dashboard</a> / <a class="breadcrumb-link" href="admin-requests-queue.html">Requests Queue</a> / Request #2350138</div>
       <div class="topbar-right">
-        <div class="search">&#128269;&nbsp; Search requests, devices…</div>
+        <div class="search">&#128269;&nbsp; Search SR ID, client, device…</div>
         <div class="bell">&#128276;<span class="dot"></span></div>
-        <div class="avatar">RS</div>
+        <div class="avatar">AD</div>
       </div>
     </div>
 
     <div class="content">
 
-      <!-- HERO -->
-      <div class="hero">
-        <div class="eyebrow">// EMI / EMC Test Service Portal</div>
-        <h1>Welcome back, ABC Instruments</h1>
-        <p>Track your submitted test requests, review quotations, and download reports — all in one place. Your device data and documents carry over automatically from your WebPortal account.</p>
-        <div class="hero-actions">
-          <a href="client-new-request.html" class="btn primary" style="text-decoration:none;">+ New Service Request</a>
-          <a href="client-service-requests.html" class="btn ghost" style="text-decoration:none;">View Drafts (2)</a>
+      <div class="section-card">
+        <h2 style="font-size:17px;">Signal Generator SG-40 &mdash; ABC Instruments Pvt. Ltd.</h2>
+        <div class="sub">Request #2350138 &middot; Full details (Basic, Item, Test Selection, Conformity, Documents) captured from the client submission &mdash; shown read-only above the workflow actions.</div>
+
+        <div class="flow-track" id="flowtrack">
+          <div class="node done" onclick="setStage(1)">1 &middot; Generate Quotation</div><div class="arrow">&rarr;</div>
+          <div class="node current" onclick="setStage(2)">2 &middot; Receive Payment</div><div class="arrow">&rarr;</div>
+          <div class="node" onclick="setStage(3)">3 &middot; Generate Invoice</div><div class="arrow">&rarr;</div>
+          <div class="node" onclick="setStage(4)">4 &middot; Accept Assignment</div><div class="arrow">&rarr;</div>
+          <div class="node" onclick="setStage(5)">5 &middot; Perform Test</div><div class="arrow">&rarr;</div>
+          <div class="node" onclick="setStage(6)">6 &middot; Upload Results</div>
         </div>
-        <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
-          <polyline fill="none" stroke="#0EA5C4" stroke-width="1.6"
-            points="0,50.0 40,69.1 80,68.9 120,49.6 160,30.7 200,31.3 240,50.7 280,69.5 320,68.6 360,48.9 400,30.4 440,31.6 480,51.4 520,50.0 524,48.0 528,54.0 536,42.0 544,62.0 552,34.0 560,70.0 568,26.0 576,78.0 584,18.0 592,86.0 600,10.0 608,86.0 616,18.0 624,78.0 632,26.0 640,70.0 648,34.0 656,62.0 664,42.0 672,54.0 680,50.0 720,52.1 760,70.1 800,67.7 840,47.5 880,29.8 920,32.5 960,52.9 1000,70.4 1040,67.3 1080,46.8 1120,29.5 1160,32.9 1200,53.6"/>
-        </svg>
+        <div class="sub" style="margin-top:-10px;">Click any stage to preview it (demo only &mdash; stages unlock in sequence in the real system).</div>
       </div>
 
-      <!-- KPI ROW -->
-      <div class="kpi-row">
-        <div class="kpi draft">
-          <div class="top"><div class="icon">&#128221;</div></div>
-          <div class="num">02</div>
-          <div class="lbl">Draft Requests</div>
+      <div class="section-card" id="wf-quotation">
+        <b>Step 1 &mdash; Generate Quotation</b> <span class="pill done" style="margin-left:6px;">Done</span>
+        <div class="sub" style="margin-top:8px;">Admin builds the official quotation &mdash; no pricing was submitted by the client.</div>
+        <table>
+          <tr><th>Test / Activity</th><th>Specification</th><th>Qty</th><th>Rate (&#8377;)</th><th>Amount (&#8377;)</th></tr>
+          <tr><td>Radiated Emission Test</td><td>CISPR 32</td><td>1</td><td>18,000</td><td>18,000</td></tr>
+          <tr><td>Conducted Emission Test</td><td>CISPR 32</td><td>1</td><td>12,500</td><td>12,500</td></tr>
+          <tr><td>Witness Charges</td><td>&mdash;</td><td>0</td><td>0</td><td>0</td></tr>
+        </table>
+        <div class="field-grid c3" style="margin-top:12px;">
+          <div><span class="box-label">Quote Date</span><div class="field-value filled">10 Jul 2026</div></div>
+          <div><span class="box-label">Expiry Date</span><div class="field-value filled">10 Aug 2026</div></div>
+          <div><span class="box-label">Total Amount</span><div class="field-value filled">&#8377; 30,500</div></div>
         </div>
-        <div class="kpi progress">
-          <div class="top"><div class="icon">&#9203;</div></div>
-          <div class="num">03</div>
-          <div class="lbl">Submitted / In Progress</div>
-        </div>
-        <div class="kpi quote">
-          <div class="top"><div class="icon">&#8383;</div></div>
-          <div class="num">01</div>
-          <div class="lbl">Awaiting Quotation Acceptance</div>
-        </div>
-        <div class="kpi done">
-          <div class="top"><div class="icon">&#10003;</div></div>
-          <div class="num">05</div>
-          <div class="lbl">Completed Tests</div>
-        </div>
+        <div class="wizard-actions"><div></div><div class="grp"><button class="btn secondary">&darr; Preview PDF</button><button class="btn primary">Send Quotation to Client</button></div></div>
       </div>
 
-      <!-- PANEL GRID -->
-      <div class="panel-grid">
-        <div class="panel">
-          <div class="panel-head">
-            <h2>My Service Requests</h2>
-            <a href="client-service-requests.html">View all →</a>
-          </div>
-          <table>
-            <tr><th>SR ID</th><th>Device</th><th>Stage</th><th>Updated</th><th></th></tr>
-            <tr>
-              <td class="id">2350155</td>
-              <td class="device-cell"><span class="name">Digital Multimeter DX-200</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill draft">Draft</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">19 Jul 2026</td>
-              <td><a class="row-link" href="client-new-request.html">Resume →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350142</td>
-              <td class="device-cell"><span class="name">RF Power Analyzer</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill submitted">Submitted</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">15 Jul 2026</td>
-              <td><a class="row-link" href="client-request-tracking.html">View →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350138</td>
-              <td class="device-cell"><span class="name">Signal Generator SG-40</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill quote">Quotation Sent</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">10 Jul 2026</td>
-              <td><a class="row-link" href="client-request-tracking.html">Review →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350120</td>
-              <td class="device-cell"><span class="name">Oscilloscope OS-12</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill testing">Testing</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">02 Jul 2026</td>
-              <td><a class="row-link" href="client-request-tracking.html">Track →</a></td>
-            </tr>
-            <tr>
-              <td class="id">2350098</td>
-              <td class="device-cell"><span class="name">Power Supply Unit PSU-5</span><span class="meta">Qty 1</span></td>
-              <td><span class="pill done">Completed</span></td>
-              <td class="mono" style="font-size:12px;color:var(--text-faint);">21 Jun 2026</td>
-              <td><a class="row-link" href="client-reports.html">Report ↓</a></td>
-            </tr>
-          </table>
+      <div class="section-card" id="wf-payment">
+        <b>Step 2 &mdash; Receive Payment</b> <span class="pill quote" style="margin-left:6px;">Pending</span>
+        <div class="field-grid c2" style="margin-top:12px;">
+          <div><span class="box-label">Payment Mode</span><div class="field-value">NEFT / Challan / Online Gateway</div></div>
+          <div><span class="box-label">Transaction / UTR No.</span><div class="field-value">&mdash;</div></div>
+          <div><span class="box-label">Amount Received</span><div class="field-value">&#8377; &mdash;</div></div>
+          <div><span class="box-label">Payment Date</span><div class="field-value">&mdash;</div></div>
         </div>
-
-        <div class="side-stack">
-          <div class="panel">
-            <div class="panel-head">
-              <h2>Registered Devices</h2>
-              <a href="client-service-requests.html">Manage →</a>
-            </div>
-            <div class="devices-list">
-              <div class="device-row"><span class="dot"></span><div class="info"><div class="n">Digital Multimeter DX-200</div><div class="s">DX200-0091</div></div></div>
-              <div class="device-row"><span class="dot"></span><div class="info"><div class="n">RF Power Analyzer</div><div class="s">RFA-4471</div></div></div>
-              <div class="device-row"><span class="dot"></span><div class="info"><div class="n">Oscilloscope OS-12</div><div class="s">OS12-1187</div></div></div>
-            </div>
-          </div>
-
-          <div class="help-card">
-            <div class="tag">Need a hand?</div>
-            <h3>Not sure which tests apply?</h3>
-            <p>Check the EMI/EMC testing guide or reach your assigned lab coordinator before starting a new request.</p>
-            <button class="btn primary">View Testing Guide</button>
-          </div>
-        </div>
+        <div class="wizard-actions"><div></div><div class="grp"><button class="btn primary">Mark Payment Received</button></div></div>
       </div>
+
+      <div class="section-card" id="wf-invoice" style="opacity:.55;">
+        <b>Step 3 &mdash; Generate Invoice</b> <span class="pill draft" style="margin-left:6px;">Locked</span>
+        <div class="sub" style="margin-top:8px;">Unlocks once payment is confirmed.</div>
+        <div class="field-grid c2">
+          <div><span class="box-label">Invoice No.</span><div class="field-value">Auto-generated e.g. INV-2350138</div></div>
+          <div><span class="box-label">Invoice Date</span><div class="field-value">&mdash;</div></div>
+          <div><span class="box-label">Payment Reference</span><div class="field-value">Linked from Step 2</div></div>
+          <div><span class="box-label">GST (%) &amp; Amount</span><div class="field-value">&mdash;</div></div>
+          <div style="grid-column:span 2;"><span class="box-label">Total Invoice Value</span><div class="field-value">&#8377; &mdash;</div></div>
+        </div>
+        <div class="wizard-actions"><div></div><div class="grp"><button class="btn secondary" disabled>&darr; Generate Invoice</button><button class="btn primary" disabled>Send Invoice</button></div></div>
+      </div>
+
+      <div class="section-card" id="wf-assignment" style="opacity:.55;">
+        <b>Step 4 &mdash; Accept Assignment</b> <span class="pill draft" style="margin-left:6px;">Locked</span>
+        <div class="sub" style="margin-top:8px;">Assign to Tester(s) / lab engineer once invoice is generated.</div>
+        <div class="field-grid c2">
+          <div><span class="box-label">Assign Tester(s)</span><div class="field-value">List of Testers &mdash; multi-select</div></div>
+          <div><span class="box-label">Test Chamber / Setup</span><div class="field-value">e.g. EMC Chamber 2</div></div>
+          <div><span class="box-label">Scheduled Start / End</span><div class="field-value">&mdash;</div></div>
+          <div><span class="box-label">Priority</span><div class="field-value">Normal / Urgent</div></div>
+        </div>
+        <div class="wizard-actions"><div></div><div class="grp"><button class="btn primary" disabled>Confirm Assignment</button></div></div>
+      </div>
+
+      <div class="section-card" id="wf-test" style="opacity:.55;">
+        <b>Step 5 &mdash; Perform Test</b> <span class="pill draft" style="margin-left:6px;">Locked</span>
+        <div class="sub" style="margin-top:8px;">Test execution status &amp; logs recorded by assigned Tester.</div>
+        <table>
+          <tr><th>Test / Activity</th><th>Start</th><th>End</th><th>Status</th></tr>
+          <tr><td>Radiated Emission Test</td><td>&mdash;</td><td>&mdash;</td><td>Not Started</td></tr>
+          <tr><td>Conducted Emission Test</td><td>&mdash;</td><td>&mdash;</td><td>Not Started</td></tr>
+        </table>
+        <div class="wizard-actions"><div></div><div class="grp"><button class="btn secondary" disabled>Save Progress</button><button class="btn primary" disabled>Mark Testing Complete</button></div></div>
+      </div>
+
+      <div class="section-card" id="wf-results" style="opacity:.55;">
+        <b>Step 6 &mdash; Upload Results</b> <span class="pill draft" style="margin-left:6px;">Locked</span>
+        <div class="sub" style="margin-top:8px;">Final report uploaded here; visible to client once published.</div>
+        <table>
+          <tr><th>Test / Activity</th><th>Result</th><th>Deviation / Comments</th></tr>
+          <tr><td>Radiated Emission Test</td><td>Pass / Fail</td><td>&mdash;</td></tr>
+          <tr><td>Conducted Emission Test</td><td>Pass / Fail</td><td>&mdash;</td></tr>
+        </table>
+        <div class="field-grid c2" style="margin-top:12px;">
+          <div><span class="box-label">Final Test Report</span><span class="upload-box">Upload signed report PDF&hellip;</span></div>
+          <div><span class="box-label">Digital Signature / QR</span><div class="field-value">Applied on publish</div></div>
+        </div>
+        <div class="wizard-actions"><div></div><div class="grp"><button class="btn secondary" disabled>Preview Report</button><button class="btn primary" disabled>Publish Report to Client</button></div></div>
+      </div>
+
+      <script>
+        function setStage(n){
+          const nodes = document.querySelectorAll('#flowtrack .node');
+          nodes.forEach((el,i)=>{
+            el.classList.remove('done','current');
+            if(i+1<n) el.classList.add('done');
+            else if(i+1===n) el.classList.add('current');
+          });
+          const ids = ['wf-quotation','wf-payment','wf-invoice','wf-assignment','wf-test','wf-results'];
+          ids.forEach((id,i)=>{
+            const card = document.getElementById(id);
+            const pill = card.querySelector('.pill');
+            const btns = card.querySelectorAll('button');
+            if(i+1<n){ card.style.opacity=1; pill.className='pill done'; pill.textContent='Done'; btns.forEach(b=>b.disabled=false); }
+            else if(i+1===n){ card.style.opacity=1; pill.className='pill quote'; pill.textContent='Pending'; btns.forEach(b=>b.disabled=false); }
+            else { card.style.opacity=.55; pill.className='pill draft'; pill.textContent='Locked'; btns.forEach(b=>b.disabled=true); }
+          });
+          window.scrollTo(0,0);
+        }
+      </script>
 
     </div>
   </div>
