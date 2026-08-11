@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>New Service Request — EMI/EMC Testing</title>
+<title>My Devices — EMI/EMC Testing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -287,6 +287,41 @@
 
   .breadcrumb-link{color:var(--cyan-deep);text-decoration:none;}
 
+  /* additional classes from admin dashboard, shared for list pages on both roles */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;}
+  .filter{font-size:11.5px;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-mute);font-weight:500;text-decoration:none;display:inline-block;}
+  .filter.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .client-cell .name{font-weight:500;}
+  .client-cell .meta{font-size:11px;color:var(--text-faint);margin-top:2px;}
+  .tester-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-mute);}
+  .tester-chip .av{width:20px;height:20px;border-radius:5px;background:var(--cyan-soft);color:var(--cyan-deep);font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .pill.new{background:var(--cyan-soft);color:var(--cyan-deep);} .pill.new::before{background:var(--cyan);}
+  .pill.pay{background:var(--rust-soft);color:var(--rust);} .pill.pay::before{background:var(--rust);}
+  .pill.invoice{background:#EAE6F7;color:#6647B8;} .pill.invoice::before{background:#6647B8;}
+  .pagination{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:14px 22px;font-size:11.5px;color:var(--text-mute);}
+  .pagination button{border:1px solid var(--border);background:#fff;border-radius:6px;padding:5px 11px;font-size:11.5px;cursor:pointer;color:var(--text-mute);font-family:inherit;}
+  .pagination button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  /* device cards + attached documents */
+  .device-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:18px;overflow:hidden;}
+  .device-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .device-head .left{display:flex;align-items:center;gap:14px;}
+  .device-icon{width:42px;height:42px;border-radius:10px;background:var(--cyan-soft);color:var(--cyan-deep);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .device-head .dname{font-size:14.5px;font-weight:600;color:var(--navy);}
+  .device-head .dmeta{font-size:11.5px;color:var(--text-faint);margin-top:2px;font-family:'IBM Plex Mono',monospace;}
+  .device-head .actions{display:flex;gap:10px;align-items:center;}
+  .docs-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;padding:14px 22px 2px;}
+  .doc-list{padding:2px 22px 16px;}
+  .doc-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--border);}
+  .doc-row:first-child{border-top:none;}
+  .doc-icon{width:32px;height:32px;border-radius:7px;background:#EEF1F4;color:var(--text-mute);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+  .doc-info{flex:1;min-width:0;}
+  .doc-name{font-size:12.5px;font-weight:500;color:var(--text);}
+  .doc-meta{font-size:11px;color:var(--text-faint);margin-top:1px;}
+  .doc-actions{display:flex;gap:14px;flex-shrink:0;}
+  .doc-actions a{font-size:11.5px;font-weight:600;color:var(--cyan-deep);text-decoration:none;}
+  .empty-doc{padding:12px 0;font-size:12px;color:var(--text-faint);font-style:italic;}
+
 </style>
 </head>
 <body>
@@ -310,12 +345,12 @@
     <div class="nav-section">
       <div class="nav-label">Workspace</div>
       <a class="nav-item"><span class="ic">&#8962;</span> WebPortal Home</a>
-      <a class="nav-item" href="client-devices.html"><span class="ic">&#9881;</span> My Devices</a>
+      <a class="nav-item active" href="client-devices.html"><span class="ic">&#9881;</span> My Devices</a>
     </div>
     <div class="nav-section">
       <div class="nav-label">EMI / EMC Testing</div>
       <a class="nav-item" href="client-dashboard.html"><span class="ic">&#9635;</span> Dashboard</a>
-      <a class="nav-item active" href="client-service-requests.html"><span class="ic">&#128196;</span> Service Requests</a>
+      <a class="nav-item" href="client-service-requests.html"><span class="ic">&#128196;</span> Service Requests</a>
       <a class="nav-item" href="client-quotations.html"><span class="ic">&#8383;</span> Quotations</a>
       <a class="nav-item" href="client-invoices.html"><span class="ic">&#128179;</span> Invoices &amp; Payments</a>
       <a class="nav-item" href="client-reports.html"><span class="ic">&#128203;</span> Test Reports</a>
@@ -334,9 +369,9 @@
   <!-- ============ MAIN ============ -->
   <div class="main">
     <div class="topbar">
-      <div class="crumb"><a class="breadcrumb-link" href="client-dashboard.html">Dashboard</a> / New Service Request</div>
+      <div class="crumb"><a class="breadcrumb-link" href="client-dashboard.html">Dashboard</a> / My Devices</div>
       <div class="topbar-right">
-        <div class="search">&#128269;&nbsp; Search requests, devices…</div>
+        <div class="search">&#128269;&nbsp; Search devices, documents…</div>
         <div class="bell">&#128276;<span class="dot"></span></div>
         <div class="avatar">RS</div>
       </div>
@@ -344,200 +379,214 @@
 
     <div class="content">
 
-      <div class="section-card" style="padding:14px 22px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-          <div><b style="color:var(--navy);">Service Request ID: 2350155</b>
-            <span class="pill draft" style="margin-left:8px;">Draft</span>
+      <div class="section-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2 style="margin:0;">My Devices</h2>
+          <div class="sub" style="margin:4px 0 0;">Devices registered to your organization, with the documents on file for each &mdash; these auto-populate into new EMI/EMC service requests.</div>
+        </div>
+        <a href="#" class="btn primary" style="text-decoration:none;">+ Register New Device</a>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi draft">
+          <div class="top"><div class="icon">&#9881;</div></div>
+          <div class="num">05</div>
+          <div class="lbl">Registered Devices</div>
+        </div>
+        <div class="kpi progress">
+          <div class="top"><div class="icon">&#128196;</div></div>
+          <div class="num">13</div>
+          <div class="lbl">Documents on File</div>
+        </div>
+        <div class="kpi quote">
+          <div class="top"><div class="icon">&#8987;</div></div>
+          <div class="num">03</div>
+          <div class="lbl">Used in Active Requests</div>
+        </div>
+        <div class="kpi done">
+          <div class="top"><div class="icon">&#9888;</div></div>
+          <div class="num">01</div>
+          <div class="lbl">Missing Required Docs</div>
+        </div>
+      </div>
+
+      <div class="device-card">
+        <div class="device-head">
+          <div class="left">
+            <div class="device-icon">&#128225;</div>
+            <div>
+              <div class="dname">Digital Multimeter DX-200<span class="pill submitted" style="margin-left:8px;">Used in SR #2350155 (Draft)</span></div>
+              <div class="dmeta">Serial No. DX200-0091 &middot; Model DX-200 &middot; Registered 12 May 2026</div>
+            </div>
           </div>
-          <span style="font-size:11px;color:var(--text-faint);">Auto-saved 2 min ago</span>
-        </div>
-      </div>
-
-      <div class="stepper" id="stepper">
-        <div class="step active"><span class="n">1</span>Basic Details</div>
-        <div class="step"><span class="n">2</span>Item Details</div>
-        <div class="step"><span class="n">3</span>Test / Service</div>
-        <div class="step"><span class="n">4</span>Conformity</div>
-        <div class="step"><span class="n">5</span>Document</div>
-        <div class="step"><span class="n">6</span>Terms</div>
-        <div class="step"><span class="n">7</span>Preview</div>
-        <div class="step"><span class="n">8</span>Draft Quotation</div>
-      </div>
-
-      <!-- STEP 1: Basic Details -->
-      <div class="section-card wizard-body active" data-step="0">
-        <h2>1 &middot; Basic Details</h2>
-        <div class="sub">Auto-populated from your WebPortal account. Additional EMI/EMC client information appears below.</div>
-        <div class="field-grid c2">
-          <div><span class="box-label">Organization Name</span><div class="field-value filled">M/s ABC Instruments Pvt. Ltd.</div></div>
-          <div><span class="box-label">Registered Address</span><div class="field-value filled">Plot 14, Industrial Area, Bengaluru</div></div>
-          <div><span class="box-label">GSTIN</span><div class="field-value filled">29AAAAA0000A1Z5</div></div>
-          <div><span class="box-label">Contact Person</span><div class="field-value filled">Rakesh Sharma</div></div>
-        </div>
-        <div class="sub" style="margin-top:18px;">Additional EMI/EMC client information</div>
-        <div class="field-grid c2">
-          <div><span class="box-label">Industry / Application Domain</span><div class="field-value">Select&hellip;</div></div>
-          <div><span class="box-label">Purpose of Testing</span><div class="field-value">Type Approval / R&amp;D / Compliance / Other</div></div>
-          <div><span class="box-label">Regulatory Standard Required</span><div class="field-value">e.g. IS 6873 / CISPR 32 / MIL-STD-461</div></div>
-          <div><span class="box-label">Authorized Signatory Designation</span><div class="field-value">e.g. Quality Manager</div></div>
-        </div>
-        <div class="wizard-actions"><div></div><div class="grp"><button class="btn primary" onclick="nextStep()">Save &amp; Next &rarr;</button></div></div>
-      </div>
-
-      <!-- STEP 2: Item Details -->
-      <div class="section-card wizard-body" data-step="1">
-        <h2>2 &middot; Item Details</h2>
-        <div class="sub">Add New Description of Item to be Tested</div>
-        <div class="field-grid c3">
-          <div><span class="box-label">Serial Number</span><div class="field-value filled">DX200-0091</div></div>
-          <div><span class="box-label">Nomenclature</span><div class="field-value">e.g. Digital Multimeter</div></div>
-          <div><span class="box-label">Manufactured By</span><div class="field-value filled">ABC Instruments</div></div>
-          <div><span class="box-label">Model</span><div class="field-value filled">DX-200</div></div>
-          <div><span class="box-label">Accuracy</span><div class="field-value">e.g. &plusmn;0.5%</div></div>
-          <div><span class="box-label">Brand / Trademark</span><div class="field-value">e.g. ABC</div></div>
-          <div><span class="box-label">Device Length</span><div class="field-value">&mdash;</div></div>
-          <div><span class="box-label">Device Width</span><div class="field-value">&mdash;</div></div>
-          <div><span class="box-label">Device Height</span><div class="field-value">&mdash;</div></div>
-          <div><span class="box-label">Dimension Unit</span><div class="field-value">mm / cm / in</div></div>
-          <div><span class="box-label">Device Weight</span><div class="field-value">&mdash;</div></div>
-          <div><span class="box-label">Weight Unit</span><div class="field-value">g / kg</div></div>
-          <div><span class="box-label">Device Functionality</span><div class="field-value">Short description</div></div>
-          <div><span class="box-label">Activity Name</span><div class="field-value">e.g. Radiated Emission Test</div></div>
-          <div><span class="box-label">Specification Name</span><div class="field-value">e.g. CISPR 32</div></div>
-          <div><span class="box-label">Quantity</span><div class="field-value">1</div></div>
-          <div><span class="box-label">No. of Witness Required</span><div class="field-value">0</div></div>
-          <div style="grid-column:span 3;"><span class="box-label">Remarks</span><div class="field-value" style="min-height:44px;">&mdash;</div></div>
-        </div>
-        <div style="margin-top:14px;"><button class="btn secondary" style="padding:7px 14px;font-size:12px;">+ Add / Submit Item</button></div>
-
-        <div class="sub" style="margin-top:20px;">Saved Devices</div>
-        <table>
-          <tr><th>#</th><th>Nomenclature</th><th>Serial No.</th><th>Model</th><th>Qty</th><th>Witness</th><th></th></tr>
-          <tr><td>1</td><td>Digital Multimeter</td><td class="id">DX200-0091</td><td>DX-200</td><td>1</td><td>0</td><td><a class="row-link">Edit</a> &middot; <a class="row-link">Remove</a></td></tr>
-        </table>
-        <div class="wizard-actions"><button class="btn ghost" onclick="prevStep()">&larr; Back</button><button class="btn primary" onclick="nextStep()">Save &amp; Next &rarr;</button></div>
-      </div>
-
-      <!-- STEP 3: Test / Service Selection -->
-      <div class="section-card wizard-body" data-step="2">
-        <h2>3 &middot; Test / Service Selection</h2>
-        <div class="sub">Select the EMI/EMC tests required for the item(s) added in Step 2. No pricing is shown &mdash; this drives the Draft Quotation only.</div>
-        <div class="checklist-row" style="font-weight:700;color:var(--text-faint);font-size:10.5px;text-transform:uppercase;">
-          <input type="checkbox" style="visibility:hidden;"><span class="t-name">Test / Activity</span><span class="t-std">Standard</span><span class="t-qty">Qty</span>
-        </div>
-        <div class="checklist-row"><input type="checkbox" checked><span class="t-name">Radiated Emission Test</span><span class="t-std">CISPR 32</span><span class="t-qty">1</span></div>
-        <div class="checklist-row"><input type="checkbox" checked><span class="t-name">Conducted Emission Test</span><span class="t-std">CISPR 32</span><span class="t-qty">1</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Radiated Immunity Test</span><span class="t-std">IEC 61000-4-3</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Conducted Immunity Test</span><span class="t-std">IEC 61000-4-6</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">ESD Immunity Test</span><span class="t-std">IEC 61000-4-2</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Surge Immunity Test</span><span class="t-std">IEC 61000-4-5</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Witness Charges (if witness required)</span><span class="t-std">&mdash;</span><span class="t-qty">0</span></div>
-        <div style="margin-top:14px;"><button class="btn ghost" style="padding:7px 14px;font-size:12px;">+ Request a Test Not Listed</button></div>
-        <div class="wizard-actions"><button class="btn ghost" onclick="prevStep()">&larr; Back</button><button class="btn primary" onclick="nextStep()">Save &amp; Next &rarr;</button></div>
-      </div>
-
-      <!-- STEP 4: Conformity -->
-      <div class="section-card wizard-body" data-step="3">
-        <h2>4 &middot; Conformity</h2>
-        <div class="field-grid c2">
-          <div><span class="box-label">Select Lab</span><div class="field-value">EMI/EMC Lab Bengaluru</div></div>
-          <div>
-            <span class="box-label">Conformity Statement Required?</span>
-            <div class="toggle-yn"><button class="sel">Yes</button><button>No</button></div>
+          <div class="actions">
+            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
+            <a href="#" class="row-link">Edit Device</a>
           </div>
         </div>
-        <div class="side-note">If <b>No</b> is selected, a Remarks field opens for justification. If <b>Yes</b>, choose a conformity method below.</div>
-        <div class="field-grid c2">
-          <div><span class="box-label">Conformity Option</span><div class="field-value">Self-Declaration / Manufacturer Certificate / Third-Party Lab Report</div></div>
-          <div><span class="box-label">Reference / Certificate No.</span><div class="field-value">&mdash;</div></div>
+        <div class="docs-label">Attached Documents</div>
+        <div class="doc-list">
+        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">manual_dx200.pdf</div>
+            <div class="doc-meta">User Manual &middot; 2.4 MB &middot; Uploaded 12 May 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">tech_spec_dx200.pdf</div>
+            <div class="doc-meta">Technical Specification &middot; 1.1 MB &middot; Uploaded 12 May 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">calibration_cert_dx200.pdf</div>
+            <div class="doc-meta">Calibration Certificate &middot; 540 KB &middot; Uploaded 18 May 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
         </div>
-        <div class="wizard-actions"><button class="btn ghost" onclick="prevStep()">&larr; Back</button><button class="btn primary" onclick="nextStep()">Save &amp; Next &rarr;</button></div>
-      </div>
-
-      <!-- STEP 5: Document -->
-      <div class="section-card wizard-body" data-step="4">
-        <h2>5 &middot; Documents</h2>
-        <div class="sub">Documents already on file auto-populate; upload additional ones if required.</div>
-        <table>
-          <tr><th>Sr.No</th><th>Document Name</th><th>Source</th><th>Action</th></tr>
-          <tr><td>1</td><td>Manual</td><td>Auto-populated</td><td><span class="upload-box done">manual_dx200.pdf &#10003;</span></td></tr>
-          <tr><td>2</td><td>Technical Specification</td><td>Auto-populated</td><td><span class="upload-box done">tech_spec.pdf &#10003;</span></td></tr>
-          <tr><td>3</td><td>Functional Documents</td><td>Not on file</td><td><span class="upload-box">Drag file or Browse&hellip;</span></td></tr>
-          <tr><td>4</td><td>Drawing</td><td>Optional</td><td><span class="upload-box">Drag file or Browse&hellip;</span></td></tr>
-          <tr><td>5</td><td>Test Plan</td><td>Optional</td><td><span class="upload-box">Drag file or Browse&hellip;</span></td></tr>
-        </table>
-        <div class="wizard-actions"><button class="btn ghost" onclick="prevStep()">&larr; Back</button><button class="btn primary" onclick="nextStep()">Save &amp; Next &rarr;</button></div>
-      </div>
-
-      <!-- STEP 6: Terms -->
-      <div class="section-card wizard-body" data-step="5">
-        <h2>6 &middot; Terms and Conditions</h2>
-        <div class="field-value" style="min-height:120px;line-height:1.9;padding:16px;">
-          &#9744; I confirm the details furnished above are true and correct.<br>
-          &#9744; I agree to the EMI/EMC testing charges as per the applicable rate card.<br>
-          &#9744; I understand test results are valid only for the sample/device submitted.<br>
-          &#9744; I agree to C-DAC&rsquo;s cancellation &amp; refund policy.
         </div>
-        <div class="wizard-actions"><button class="btn ghost" onclick="prevStep()">&larr; Back</button><button class="btn primary" onclick="nextStep()">Save &amp; Next &rarr;</button></div>
+        
       </div>
-
-      <!-- STEP 7: Preview -->
-      <div class="section-card wizard-body" data-step="6">
-        <h2>7 &middot; Preview</h2>
-        <div class="sub">Full read-only summary of the request before submission.</div>
-        <div class="field-grid c2">
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Applicant / Organization</b><div class="sub" style="margin:4px 0 0;">M/s ABC Instruments Pvt. Ltd. &middot; GSTIN 29AAAAA0000A1Z5</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Basic Details</b><div class="sub" style="margin:4px 0 0;">Purpose: Type Approval &middot; Standard: CISPR 32</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Item / Device Details</b><div class="sub" style="margin:4px 0 0;">Digital Multimeter DX-200 &middot; Qty 1 &middot; Witness 0</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Test / Service Selection</b><div class="sub" style="margin:4px 0 0;">Radiated &amp; Conducted Emission Test (CISPR 32)</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Conformity</b><div class="sub" style="margin:4px 0 0;">Lab: EMI/EMC Lab Bengaluru &middot; Statement: Yes (Self-Declaration)</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Documents</b><div class="sub" style="margin:4px 0 0;">5 documents attached</div></div>
-        </div>
-        <div class="wizard-actions"><button class="btn ghost" onclick="prevStep()">&larr; Back</button><button class="btn primary" onclick="nextStep()">Continue &rarr;</button></div>
-      </div>
-
-      <!-- STEP 8: Draft Quotation -->
-      <div class="section-card wizard-body" data-step="7">
-        <h2>8 &middot; Draft Quotation</h2>
-        <div class="side-note">Carried forward from Step 3. No pricing is shown &mdash; rates, Quote Date and Expiry Date are set entirely by Admin after review.</div>
-        <table>
-          <tr><th>Test / Activity</th><th>Specification</th><th>Qty</th></tr>
-          <tr><td>Radiated Emission Test</td><td>CISPR 32</td><td>1</td></tr>
-          <tr><td>Conducted Emission Test</td><td>CISPR 32</td><td>1</td></tr>
-          <tr><td>Witness Charges</td><td>&mdash;</td><td>0</td></tr>
-        </table>
-        <div style="margin-top:14px;font-size:11.5px;color:var(--text-mute);">Quote Date: <i>&mdash; set by Admin</i> &nbsp;|&nbsp; Expiry Date: <i>&mdash; set by Admin</i> &nbsp;|&nbsp; Amount: <i>&mdash; set by Admin</i></div>
-        <div style="margin-top:10px;font-size:11.5px;color:var(--text-faint);">Once submitted, this request moves to Admin for quotation generation. You&rsquo;ll be notified when the official quotation is ready to review.</div>
-        <div class="wizard-actions">
-          <button class="btn ghost" onclick="prevStep()">&larr; Back</button>
-          <div class="grp">
-            <a href="client-dashboard.html" class="btn secondary" style="text-decoration:none;">Save as Draft</a>
-            <a href="client-request-tracking.html" class="btn primary" style="text-decoration:none;">Submit Request &rarr;</a>
+      <div class="device-card">
+        <div class="device-head">
+          <div class="left">
+            <div class="device-icon">&#128225;</div>
+            <div>
+              <div class="dname">RF Power Analyzer<span class="pill submitted" style="margin-left:8px;">Used in SR #2350142 (Submitted)</span></div>
+              <div class="dmeta">Serial No. RFA-4471 &middot; Model RPA-4400 &middot; Registered 03 May 2026</div>
+            </div>
+          </div>
+          <div class="actions">
+            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
+            <a href="#" class="row-link">Edit Device</a>
           </div>
         </div>
+        <div class="docs-label">Attached Documents</div>
+        <div class="doc-list">
+        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">manual_rfa4471.pdf</div>
+            <div class="doc-meta">User Manual &middot; 3.1 MB &middot; Uploaded 03 May 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">calibration_cert_rfa4471.pdf</div>
+            <div class="doc-meta">Calibration Certificate &middot; 480 KB &middot; Uploaded 03 May 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>
+        </div>
+        
+      </div>
+      <div class="device-card">
+        <div class="device-head">
+          <div class="left">
+            <div class="device-icon">&#128225;</div>
+            <div>
+              <div class="dname">Oscilloscope OS-12<span class="pill submitted" style="margin-left:8px;">Used in SR #2350120 (Testing)</span></div>
+              <div class="dmeta">Serial No. OS12-1187 &middot; Model OS-12 &middot; Registered 22 Apr 2026</div>
+            </div>
+          </div>
+          <div class="actions">
+            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
+            <a href="#" class="row-link">Edit Device</a>
+          </div>
+        </div>
+        <div class="docs-label">Attached Documents</div>
+        <div class="doc-list">
+        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">manual_os12.pdf</div>
+            <div class="doc-meta">User Manual &middot; 2.8 MB &middot; Uploaded 22 Apr 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>
+        </div>
+        <div class="side-note" style="margin:0 22px 14px;">Technical Specification not on file &mdash; you may be asked to upload this during your next service request.</div>
+      </div>
+      <div class="device-card">
+        <div class="device-head">
+          <div class="left">
+            <div class="device-icon">&#128225;</div>
+            <div>
+              <div class="dname">Power Supply Unit PSU-5</div>
+              <div class="dmeta">Serial No. PSU5-2209 &middot; Model PSU-5 &middot; Registered 30 Mar 2026</div>
+            </div>
+          </div>
+          <div class="actions">
+            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
+            <a href="#" class="row-link">Edit Device</a>
+          </div>
+        </div>
+        <div class="docs-label">Attached Documents</div>
+        <div class="doc-list">
+        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">manual_psu5.pdf</div>
+            <div class="doc-meta">User Manual &middot; 1.9 MB &middot; Uploaded 30 Mar 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">tech_spec_psu5.pdf</div>
+            <div class="doc-meta">Technical Specification &middot; 980 KB &middot; Uploaded 30 Mar 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>        <div class="doc-row">
+          <div class="doc-icon">&#128203;</div>
+          <div class="doc-info">
+            <div class="doc-name">test_report_psu5.pdf</div>
+            <div class="doc-meta">Final Test Report &middot; 3.4 MB &middot; Uploaded 21 Jun 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>
+        </div>
+        
+      </div>
+      <div class="device-card">
+        <div class="device-head">
+          <div class="left">
+            <div class="device-icon">&#128225;</div>
+            <div>
+              <div class="dname">EMI Filter Module</div>
+              <div class="dmeta">Serial No. EFM-0071 &middot; Model EFM-200 &middot; Registered 15 Mar 2026</div>
+            </div>
+          </div>
+          <div class="actions">
+            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
+            <a href="#" class="row-link">Edit Device</a>
+          </div>
+        </div>
+        <div class="docs-label">Attached Documents</div>
+        <div class="doc-list">
+        <div class="doc-row">
+          <div class="doc-icon">&#128196;</div>
+          <div class="doc-info">
+            <div class="doc-name">datasheet_efm.pdf</div>
+            <div class="doc-meta">Datasheet &middot; 760 KB &middot; Uploaded 15 Mar 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>        <div class="doc-row">
+          <div class="doc-icon">&#128203;</div>
+          <div class="doc-info">
+            <div class="doc-name">test_report_efm.pdf</div>
+            <div class="doc-meta">Final Test Report &middot; 2.9 MB &middot; Uploaded 14 Jun 2026</div>
+          </div>
+          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
+        </div>
+        </div>
+        
       </div>
 
-      <script>
-        let curStep = 0;
-        const totalSteps = 8;
-        function render(){
-          document.querySelectorAll('.stepper .step').forEach((el,i)=>{
-            el.classList.remove('active','done');
-            if(i<curStep) el.classList.add('done');
-            else if(i===curStep) el.classList.add('active');
-          });
-          document.querySelectorAll('.wizard-body').forEach(b=>{
-            b.classList.toggle('active', parseInt(b.dataset.step)===curStep);
-          });
-          window.scrollTo(0,0);
-        }
-        function nextStep(){ if(curStep<totalSteps-1){curStep++; render();} }
-        function prevStep(){ if(curStep>0){curStep--; render();} }
-        document.querySelectorAll('.stepper .step').forEach((el,i)=>{
-          el.style.cursor='pointer';
-          el.addEventListener('click', ()=>{ curStep=i; render(); });
-        });
-      </script>
 
     </div>
   </div>
