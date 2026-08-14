@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Devices — EMI/EMC Testing</title>
+<title>Edit Device — EMI/EMC Testing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -322,6 +322,23 @@
   .doc-actions a{font-size:11.5px;font-weight:600;color:var(--cyan-deep);text-decoration:none;}
   .empty-doc{padding:12px 0;font-size:12px;color:var(--text-faint);font-style:italic;}
 
+  /* form inputs (register/edit device) */
+  .form-input{width:100%;border:1px solid var(--border);background:#fff;border-radius:7px;padding:10px 12px;font-size:13px;color:var(--text);font-family:'IBM Plex Sans',Arial,sans-serif;}
+  .form-input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-soft);}
+  select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C6D7C' stroke-width='1.6' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+  textarea.form-input{resize:vertical;min-height:72px;font-family:'IBM Plex Sans',Arial,sans-serif;}
+  .required-mark{color:var(--rust);margin-left:2px;}
+  .btn.danger{background:#fff;color:var(--rust);border:1.5px solid var(--rust-soft);}
+  .btn.danger:hover{background:var(--rust-soft);}
+  .doc-upload-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--border);}
+  .doc-upload-row:first-child{border-top:none;}
+  .doc-upload-row .dlabel{width:210px;flex-shrink:0;}
+  .doc-upload-row .dlabel .req{font-size:12.5px;font-weight:500;color:var(--text);}
+  .doc-upload-row .dlabel .opt{font-size:10.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;}
+  .doc-upload-row .dzone{flex:1;}
+  .remove-row{color:var(--rust);font-size:11.5px;font-weight:600;text-decoration:none;flex-shrink:0;}
+  .add-doc-link{font-size:12.5px;font-weight:600;color:var(--cyan-deep);text-decoration:none;display:inline-block;margin-top:12px;}
+
 
   .btn.secondary{background:#fff;color:var(--navy);border:1.5px solid var(--border);}
   .btn.secondary:hover{background:var(--bg);}
@@ -372,7 +389,7 @@
   <!-- ============ MAIN ============ -->
   <div class="main">
     <div class="topbar">
-      <div class="crumb"><a class="breadcrumb-link" href="client-dashboard.html">Dashboard</a> / My Devices</div>
+      <div class="crumb"><a class="breadcrumb-link" href="client-dashboard.html">Dashboard</a> / <a class="breadcrumb-link" href="client-devices.html">My Devices</a> / Edit Device</div>
       <div class="topbar-right">
         <div class="search">&#128269;&nbsp; Search devices, documents…</div>
         <div class="bell">&#128276;<span class="dot"></span></div>
@@ -384,212 +401,87 @@
 
       <div class="section-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
         <div>
-          <h2 style="margin:0;">My Devices</h2>
-          <div class="sub" style="margin:4px 0 0;">Devices registered to your organization, with the documents on file for each &mdash; these auto-populate into new EMI/EMC service requests.</div>
+          <h2 style="margin:0;">Edit Device</h2>
+          <div class="sub" style="margin:4px 0 0;">Digital Multimeter DX-200 &middot; Serial No. DX200-0091 &middot; Registered 12 May 2026</div>
         </div>
-        <a href="client-device-register.html" class="btn primary" style="text-decoration:none;">+ Register New Device</a>
+        <span class="pill submitted">Used in SR #2350155 (Draft)</span>
       </div>
-      <div class="kpi-row">
-        <div class="kpi draft">
-          <div class="top"><div class="icon">&#9881;</div></div>
-          <div class="num">05</div>
-          <div class="lbl">Registered Devices</div>
-        </div>
-        <div class="kpi progress">
-          <div class="top"><div class="icon">&#128196;</div></div>
-          <div class="num">13</div>
-          <div class="lbl">Documents on File</div>
-        </div>
-        <div class="kpi quote">
-          <div class="top"><div class="icon">&#8987;</div></div>
-          <div class="num">03</div>
-          <div class="lbl">Used in Active Requests</div>
-        </div>
-        <div class="kpi done">
-          <div class="top"><div class="icon">&#9888;</div></div>
-          <div class="num">01</div>
-          <div class="lbl">Missing Required Docs</div>
+
+      <div class="side-note">This device is currently referenced in an active service request. Changing core identity fields (Serial Number, Model) may require the request to be reviewed again by Admin.</div>
+
+      <div class="section-card">
+        <h2>Device Details</h2>
+        <div class="field-grid c2">
+          <div><span class="box-label">Device Nickname<span class="required-mark">*</span></span><input class="form-input" type="text" value="Bench Multimeter A"></div>
+          <div><span class="box-label">Nomenclature<span class="required-mark">*</span></span><input class="form-input" type="text" value="Digital Multimeter"></div>
+          <div><span class="box-label">Manufactured By<span class="required-mark">*</span></span><input class="form-input" type="text" value="ABC Instruments"></div>
+          <div><span class="box-label">Model<span class="required-mark">*</span></span><input class="form-input" type="text" value="DX-200"></div>
+          <div><span class="box-label">Serial Number<span class="required-mark">*</span></span><input class="form-input" type="text" value="DX200-0091"></div>
+          <div><span class="box-label">Brand / Trademark</span><input class="form-input" type="text" value="ABC"></div>
+          <div>
+            <span class="box-label">Device Category<span class="required-mark">*</span></span>
+            <select class="form-input">
+              <option selected>Test &amp; Measurement Equipment</option>
+              <option>IoT Device / Sensor</option>
+              <option>Networking Equipment</option>
+              <option>Power Electronics</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div><span class="box-label">Country of Origin</span><input class="form-input" type="text" value="India"></div>
+          <div style="grid-column:span 2;"><span class="box-label">Device Functionality / Description</span><textarea class="form-input">Handheld digital multimeter for voltage, current and resistance measurement.</textarea></div>
         </div>
       </div>
 
-      <div class="device-card">
-        <div class="device-head">
-          <div class="left">
-            <div class="device-icon">&#128225;</div>
-            <div>
-              <div class="dname">Digital Multimeter DX-200<span class="pill submitted" style="margin-left:8px;">Used in SR #2350155 (Draft)</span></div>
-              <div class="dmeta">Serial No. DX200-0091 &middot; Model DX-200 &middot; Registered 12 May 2026</div>
-            </div>
+      <div class="section-card">
+        <h2>Physical Specifications</h2>
+        <div class="field-grid c4">
+          <div><span class="box-label">Length</span><input class="form-input" type="text" value="185"></div>
+          <div><span class="box-label">Width</span><input class="form-input" type="text" value="90"></div>
+          <div><span class="box-label">Height</span><input class="form-input" type="text" value="45"></div>
+          <div><span class="box-label">Dimension Unit</span>
+            <select class="form-input"><option selected>mm</option><option>cm</option><option>in</option></select>
           </div>
-          <div class="actions">
-            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
-            <a href="client-device-edit.html" class="row-link">Edit Device</a>
-          </div>
-        </div>
-        <div class="docs-label">Attached Documents</div>
-        <div class="doc-list">
-        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">manual_dx200.pdf</div>
-            <div class="doc-meta">User Manual &middot; 2.4 MB &middot; Uploaded 12 May 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">tech_spec_dx200.pdf</div>
-            <div class="doc-meta">Technical Specification &middot; 1.1 MB &middot; Uploaded 12 May 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">calibration_cert_dx200.pdf</div>
-            <div class="doc-meta">Calibration Certificate &middot; 540 KB &middot; Uploaded 18 May 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>
-        </div>
-        
-      </div>
-      <div class="device-card">
-        <div class="device-head">
-          <div class="left">
-            <div class="device-icon">&#128225;</div>
-            <div>
-              <div class="dname">RF Power Analyzer<span class="pill submitted" style="margin-left:8px;">Used in SR #2350142 (Submitted)</span></div>
-              <div class="dmeta">Serial No. RFA-4471 &middot; Model RPA-4400 &middot; Registered 03 May 2026</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
-            <a href="client-device-edit.html" class="row-link">Edit Device</a>
+          <div><span class="box-label">Weight</span><input class="form-input" type="text" value="380"></div>
+          <div><span class="box-label">Weight Unit</span>
+            <select class="form-input"><option selected>g</option><option>kg</option></select>
           </div>
         </div>
-        <div class="docs-label">Attached Documents</div>
-        <div class="doc-list">
-        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">manual_rfa4471.pdf</div>
-            <div class="doc-meta">User Manual &middot; 3.1 MB &middot; Uploaded 03 May 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">calibration_cert_rfa4471.pdf</div>
-            <div class="doc-meta">Calibration Certificate &middot; 480 KB &middot; Uploaded 03 May 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>
-        </div>
-        
-      </div>
-      <div class="device-card">
-        <div class="device-head">
-          <div class="left">
-            <div class="device-icon">&#128225;</div>
-            <div>
-              <div class="dname">Oscilloscope OS-12<span class="pill submitted" style="margin-left:8px;">Used in SR #2350120 (Testing)</span></div>
-              <div class="dmeta">Serial No. OS12-1187 &middot; Model OS-12 &middot; Registered 22 Apr 2026</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
-            <a href="client-device-edit.html" class="row-link">Edit Device</a>
-          </div>
-        </div>
-        <div class="docs-label">Attached Documents</div>
-        <div class="doc-list">
-        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">manual_os12.pdf</div>
-            <div class="doc-meta">User Manual &middot; 2.8 MB &middot; Uploaded 22 Apr 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>
-        </div>
-        <div class="side-note" style="margin:0 22px 14px;">Technical Specification not on file &mdash; you may be asked to upload this during your next service request.</div>
-      </div>
-      <div class="device-card">
-        <div class="device-head">
-          <div class="left">
-            <div class="device-icon">&#128225;</div>
-            <div>
-              <div class="dname">Power Supply Unit PSU-5</div>
-              <div class="dmeta">Serial No. PSU5-2209 &middot; Model PSU-5 &middot; Registered 30 Mar 2026</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
-            <a href="client-device-edit.html" class="row-link">Edit Device</a>
-          </div>
-        </div>
-        <div class="docs-label">Attached Documents</div>
-        <div class="doc-list">
-        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">manual_psu5.pdf</div>
-            <div class="doc-meta">User Manual &middot; 1.9 MB &middot; Uploaded 30 Mar 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">tech_spec_psu5.pdf</div>
-            <div class="doc-meta">Technical Specification &middot; 980 KB &middot; Uploaded 30 Mar 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>        <div class="doc-row">
-          <div class="doc-icon">&#128203;</div>
-          <div class="doc-info">
-            <div class="doc-name">test_report_psu5.pdf</div>
-            <div class="doc-meta">Final Test Report &middot; 3.4 MB &middot; Uploaded 21 Jun 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>
-        </div>
-        
-      </div>
-      <div class="device-card">
-        <div class="device-head">
-          <div class="left">
-            <div class="device-icon">&#128225;</div>
-            <div>
-              <div class="dname">EMI Filter Module</div>
-              <div class="dmeta">Serial No. EFM-0071 &middot; Model EFM-200 &middot; Registered 15 Mar 2026</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a href="client-new-request.html" class="btn secondary" style="text-decoration:none;padding:7px 14px;font-size:12px;">Start Request &rarr;</a>
-            <a href="client-device-edit.html" class="row-link">Edit Device</a>
-          </div>
-        </div>
-        <div class="docs-label">Attached Documents</div>
-        <div class="doc-list">
-        <div class="doc-row">
-          <div class="doc-icon">&#128196;</div>
-          <div class="doc-info">
-            <div class="doc-name">datasheet_efm.pdf</div>
-            <div class="doc-meta">Datasheet &middot; 760 KB &middot; Uploaded 15 Mar 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>        <div class="doc-row">
-          <div class="doc-icon">&#128203;</div>
-          <div class="doc-info">
-            <div class="doc-name">test_report_efm.pdf</div>
-            <div class="doc-meta">Final Test Report &middot; 2.9 MB &middot; Uploaded 14 Jun 2026</div>
-          </div>
-          <div class="doc-actions"><a href="#">View</a><a href="#">Download &darr;</a></div>
-        </div>
-        </div>
-        
       </div>
 
+      <div class="section-card">
+        <h2>Documents</h2>
+        <div class="sub">Documents already on file. Replace a file or remove it, and add new ones below.</div>
+
+        <div class="doc-upload-row">
+          <div class="dlabel"><div class="req">User Manual</div><div class="opt">On file</div></div>
+          <div class="dzone"><span class="upload-box done">manual_dx200.pdf &#10003;</span></div>
+          <a class="remove-row" href="#">Remove</a>
+        </div>
+        <div class="doc-upload-row">
+          <div class="dlabel"><div class="req">Technical Specification</div><div class="opt">On file</div></div>
+          <div class="dzone"><span class="upload-box done">tech_spec_dx200.pdf &#10003;</span></div>
+          <a class="remove-row" href="#">Remove</a>
+        </div>
+        <div class="doc-upload-row">
+          <div class="dlabel"><div class="req">Calibration Certificate</div><div class="opt">On file</div></div>
+          <div class="dzone"><span class="upload-box done">calibration_cert_dx200.pdf &#10003;</span></div>
+          <a class="remove-row" href="#">Remove</a>
+        </div>
+        <div class="doc-upload-row">
+          <div class="dlabel"><div class="req">Datasheet</div><div class="opt">Not on file</div></div>
+          <div class="dzone"><span class="upload-box">Drag file or Browse&hellip;</span></div>
+        </div>
+        <a class="add-doc-link" href="#">+ Add Another Document</a>
+      </div>
+
+      <div class="wizard-actions">
+        <button class="btn danger" type="button">Delete Device</button>
+        <div class="grp">
+          <a href="client-devices.html" class="btn secondary" style="text-decoration:none;">Cancel</a>
+          <a href="client-devices.html" class="btn primary" style="text-decoration:none;">Save Changes</a>
+        </div>
+      </div>
 
     </div>
   </div>
