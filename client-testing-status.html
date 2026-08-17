@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>New Service Request — EMI/EMC Testing</title>
+<title>Testing Status — EMI/EMC Testing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -349,9 +349,6 @@
   .btn.secondary{background:#fff;color:var(--navy);border:1.5px solid var(--border);}
   .btn.secondary:hover{background:var(--bg);}
 
-  .stepper .step{cursor:pointer;}
-  #stepper{position:sticky;top:64px;z-index:4;box-shadow:0 2px 6px rgba(16,24,40,.04);}
-
 </style>
 </head>
 <body>
@@ -399,7 +396,7 @@
   <!-- ============ MAIN ============ -->
   <div class="main">
     <div class="topbar">
-      <div class="crumb"><a class="breadcrumb-link" href="client-dashboard.html">Dashboard</a> / New Service Request</div>
+      <div class="crumb"><a class="breadcrumb-link" href="client-dashboard.html">Dashboard</a> / <a class="breadcrumb-link" href="client-service-requests.html">Service Requests</a> / Testing Status #2350120</div>
       <div class="topbar-right">
         <div class="search">&#128269;&nbsp; Search requests, devices…</div>
         <div class="bell">&#128276;<span class="dot"></span></div>
@@ -409,261 +406,48 @@
 
     <div class="content">
 
-      <div class="section-card" style="padding:14px 22px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-          <div><b style="color:var(--navy);">Service Request ID: 2350155</b>
-            <span class="pill draft" style="margin-left:8px;">Draft</span>
-          </div>
-          <span style="font-size:11px;color:var(--text-faint);">Auto-saved 2 min ago</span>
+      <div class="section-card">
+        <h2 style="font-size:17px;">Oscilloscope OS-12 <span class="pill testing" style="margin-left:8px;">Testing in Progress</span></h2>
+        <div class="sub">Request #2350120 &middot; Quotation accepted, payment received, and invoice issued &mdash; your device is now with our lab.</div>
+        <div class="flow-track">
+          <div class="node done">Submitted</div><div class="arrow">&rarr;</div>
+          <div class="node done">Quotation Sent</div><div class="arrow">&rarr;</div>
+          <div class="node done">Payment</div><div class="arrow">&rarr;</div>
+          <div class="node done">Invoice</div><div class="arrow">&rarr;</div>
+          <div class="node done">Assigned</div><div class="arrow">&rarr;</div>
+          <div class="node current">Testing</div><div class="arrow">&rarr;</div>
+          <div class="node">Report</div>
         </div>
+        <div class="side-note">Your device is currently being tested. There&rsquo;s nothing you need to do right now &mdash; we&rsquo;ll notify you and the report will appear here as soon as testing is complete.</div>
       </div>
 
-      <div class="stepper" id="stepper">
-        <div class="step" data-target="sec-1"><span class="n">1</span>Basic Details</div>
-        <div class="step" data-target="sec-2"><span class="n">2</span>Item Details</div>
-        <div class="step" data-target="sec-3"><span class="n">3</span>Test / Service</div>
-        <div class="step" data-target="sec-4"><span class="n">4</span>Conformity</div>
-        <div class="step" data-target="sec-5"><span class="n">5</span>Document</div>
-        <div class="step" data-target="sec-6"><span class="n">6</span>Terms</div>
-        <div class="step" data-target="sec-7"><span class="n">7</span>Preview</div>
-        <div class="step" data-target="sec-8"><span class="n">8</span>Draft Quotation</div>
-      </div>
-      <div class="side-note">Click any step above to jump straight to that section &mdash; all sections stay on this one page so you can review everything before submitting.</div>
-
-      <!-- STEP 1: Basic Details -->
-      <div class="section-card" id="sec-1">
-        <h2>1 &middot; Basic Details</h2>
-        <div class="sub">Auto-populated from your WebPortal account. Additional EMI/EMC client information appears below.</div>
-        <div class="field-grid c2">
-          <div><span class="box-label">Organization Name</span><div class="field-value filled">M/s ABC Instruments Pvt. Ltd.</div></div>
-          <div><span class="box-label">Registered Address</span><div class="field-value filled">Plot 14, Industrial Area, Bengaluru</div></div>
-          <div><span class="box-label">GSTIN</span><div class="field-value filled">29AAAAA0000A1Z5</div></div>
-          <div><span class="box-label">Contact Person</span><div class="field-value filled">Rakesh Sharma</div></div>
-        </div>
-        <div class="sub" style="margin-top:18px;">Additional EMI/EMC client information</div>
-        <div class="field-grid c2">
-          <div><span class="box-label">Industry / Application Domain</span><div class="field-value">Select&hellip;</div></div>
-          <div><span class="box-label">Purpose of Testing</span><div class="field-value">Type Approval / R&amp;D / Compliance / Other</div></div>
-          <div><span class="box-label">Regulatory Standard Required</span><div class="field-value">e.g. IS 6873 / CISPR 32 / MIL-STD-461</div></div>
-          <div><span class="box-label">Authorized Signatory Designation</span><div class="field-value">e.g. Quality Manager</div></div>
-        </div>
-        <div class="wizard-actions"><div></div><div class="grp"><button class="btn primary" onclick="goTo('sec-2')">Continue to Item Details &rarr;</button></div></div>
-      </div>
-
-      <!-- STEP 2: Item Details -->
-      <div class="section-card" id="sec-2">
-        <h2>2 &middot; Item Details</h2>
-        <div class="sub">Select the registered device this request is for. Not seeing it listed? Register it first.</div>
-
-        <div class="field-grid c2" style="align-items:end;margin-bottom:18px;">
-          <div>
-            <span class="box-label">Select Device<span class="required-mark">*</span></span>
-            <select class="form-input" id="deviceSelect" onchange="applyDevice(this)">
-              <option value="">-- Choose Registered Device --</option>
-          <option value="dx200" data-serial="DX200-0091" data-mfr="ABC Instruments" data-model="DX-200">Digital Multimeter DX-200 (DX200-0091)</option>
-          <option value="rfa4471" data-serial="RFA-4471" data-mfr="ABC Instruments" data-model="RPA-4400">RF Power Analyzer (RFA-4471)</option>
-          <option value="os12" data-serial="OS12-1187" data-mfr="ABC Instruments" data-model="OS-12">Oscilloscope OS-12 (OS12-1187)</option>
-          <option value="psu5" data-serial="PSU5-2209" data-mfr="ABC Instruments" data-model="PSU-5">Power Supply Unit PSU-5 (PSU5-2209)</option>
-          <option value="efm" data-serial="EFM-0071" data-mfr="ABC Instruments" data-model="EFM-200">EMI Filter Module (EFM-0071)</option>
-            </select>
-          </div>
-          <div>
-            <a href="client-device-register.html" class="btn secondary" style="text-decoration:none;display:inline-flex;">+ Add New Device</a>
-          </div>
-        </div>
-        <div class="doc-note" id="noDeviceNote">Don&rsquo;t see your device in the list? Use <b>+ Add New Device</b> to register it, then come back and select it here.</div>
-
-        <div class="sub" style="margin-top:20px;">Add New Description of Item to be Tested</div>
+      <div class="section-card">
+        <h2>Testing Details</h2>
         <div class="field-grid c3">
-          <div><span class="box-label">Serial Number</span><div class="field-value filled" id="f-serial">&mdash;</div></div>
-          <div><span class="box-label">Nomenclature</span><input class="form-input" id="f-nomenclature" type="text" placeholder="e.g. Digital Multimeter"></div>
-          <div><span class="box-label">Manufactured By</span><div class="field-value filled" id="f-mfr">&mdash;</div></div>
-          <div><span class="box-label">Model</span><div class="field-value filled" id="f-model">&mdash;</div></div>
-          <div><span class="box-label">Accuracy</span><input class="form-input" type="text" placeholder="e.g. &plusmn;0.5%"></div>
-          <div><span class="box-label">Brand / Trademark</span><input class="form-input" type="text" placeholder="e.g. ABC"></div>
-          <div><span class="box-label">Device Length</span><input class="form-input" type="text" placeholder="&mdash;"></div>
-          <div><span class="box-label">Device Width</span><input class="form-input" type="text" placeholder="&mdash;"></div>
-          <div><span class="box-label">Device Height</span><input class="form-input" type="text" placeholder="&mdash;"></div>
-          <div><span class="box-label">Dimension Unit</span><select class="form-input"><option>mm</option><option>cm</option><option>in</option></select></div>
-          <div><span class="box-label">Device Weight</span><input class="form-input" type="text" placeholder="&mdash;"></div>
-          <div><span class="box-label">Weight Unit</span><select class="form-input"><option>g</option><option>kg</option></select></div>
-          <div><span class="box-label">Device Functionality</span><input class="form-input" type="text" placeholder="Short description"></div>
-          <div><span class="box-label">Activity Name</span><input class="form-input" type="text" placeholder="e.g. Radiated Emission Test"></div>
-          <div><span class="box-label">Specification Name</span><input class="form-input" type="text" placeholder="e.g. CISPR 32"></div>
-          <div><span class="box-label">Quantity</span><input class="form-input" type="text" value="1"></div>
-          <div><span class="box-label">No. of Witness Required</span><input class="form-input" type="text" value="0"></div>
-          <div style="grid-column:span 3;"><span class="box-label">Remarks</span><textarea class="form-input" style="min-height:44px;"></textarea></div>
+          <div><span class="box-label">Lab / Chamber</span><div class="field-value filled">EMC Chamber 2, Bengaluru</div></div>
+          <div><span class="box-label">Testing Started On</span><div class="field-value filled">05 Jul 2026</div></div>
+          <div><span class="box-label">Estimated Completion</span><div class="field-value filled">12 Jul 2026</div></div>
         </div>
-        <div style="margin-top:14px;"><button class="btn secondary" style="padding:7px 14px;font-size:12px;">+ Add / Submit Item</button></div>
+      </div>
 
-        <div class="sub" style="margin-top:20px;">Saved Devices</div>
+      <div class="section-card">
+        <h2>Tests in Progress</h2>
         <table>
-          <tr><th>#</th><th>Nomenclature</th><th>Serial No.</th><th>Model</th><th>Qty</th><th>Witness</th><th></th></tr>
-          <tr id="savedDeviceRow" style="display:none;"><td>1</td><td id="sd-nom">&mdash;</td><td class="id" id="sd-serial">&mdash;</td><td id="sd-model">&mdash;</td><td>1</td><td>0</td><td><a class="row-link">Edit</a> &middot; <a class="row-link">Remove</a></td></tr>
-          <tr id="emptyDeviceRow"><td colspan="7" style="color:var(--text-faint);font-style:italic;">No item added yet &mdash; select a device above to begin.</td></tr>
+          <tr><th>Test / Activity</th><th>Specification</th><th>Status</th></tr>
+          <tr><td>Radiated Emission Test</td><td>CISPR 32</td><td><span class="pill done">Completed</span></td></tr>
+          <tr><td>Conducted Emission Test</td><td>CISPR 32</td><td><span class="pill testing">In Progress</span></td></tr>
         </table>
-        <div class="wizard-actions"><button class="btn secondary" onclick="goTo('sec-1')">&larr; Back</button><button class="btn primary" onclick="goTo('sec-3')">Continue to Test / Service &rarr;</button></div>
       </div>
 
-      <!-- STEP 3: Test / Service Selection -->
-      <div class="section-card" id="sec-3">
-        <h2>3 &middot; Test / Service Selection</h2>
-        <div class="sub">Select the EMI/EMC tests required for the item(s) added in Step 2. No pricing is shown &mdash; this drives the Draft Quotation only.</div>
-        <div class="checklist-row" style="font-weight:700;color:var(--text-faint);font-size:10.5px;text-transform:uppercase;">
-          <input type="checkbox" style="visibility:hidden;"><span class="t-name">Test / Activity</span><span class="t-std">Standard</span><span class="t-qty">Qty</span>
-        </div>
-        <div class="checklist-row"><input type="checkbox" checked><span class="t-name">Radiated Emission Test</span><span class="t-std">CISPR 32</span><span class="t-qty">1</span></div>
-        <div class="checklist-row"><input type="checkbox" checked><span class="t-name">Conducted Emission Test</span><span class="t-std">CISPR 32</span><span class="t-qty">1</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Radiated Immunity Test</span><span class="t-std">IEC 61000-4-3</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Conducted Immunity Test</span><span class="t-std">IEC 61000-4-6</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">ESD Immunity Test</span><span class="t-std">IEC 61000-4-2</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Surge Immunity Test</span><span class="t-std">IEC 61000-4-5</span><span class="t-qty">&mdash;</span></div>
-        <div class="checklist-row"><input type="checkbox"><span class="t-name">Witness Charges (if witness required)</span><span class="t-std">&mdash;</span><span class="t-qty">0</span></div>
-        <div style="margin-top:14px;"><button class="btn secondary" style="padding:7px 14px;font-size:12px;">+ Request a Test Not Listed</button></div>
-        <div class="wizard-actions"><button class="btn secondary" onclick="goTo('sec-2')">&larr; Back</button><button class="btn primary" onclick="goTo('sec-4')">Continue to Conformity &rarr;</button></div>
+      <div class="section-card" style="opacity:.6;">
+        <h2>Test Report</h2>
+        <div class="sub" style="margin-bottom:0;">Not available yet &mdash; the final signed report will appear here for download once Admin publishes it.</div>
       </div>
 
-      <!-- STEP 4: Conformity -->
-      <div class="section-card" id="sec-4">
-        <h2>4 &middot; Conformity</h2>
-        <div class="field-grid c2">
-          <div><span class="box-label">Select Lab</span><div class="field-value">EMI/EMC Lab Bengaluru</div></div>
-          <div>
-            <span class="box-label">Conformity Statement Required?</span>
-            <div class="toggle-yn"><button class="sel">Yes</button><button>No</button></div>
-          </div>
-        </div>
-        <div class="side-note">If <b>No</b> is selected, a Remarks field opens for justification. If <b>Yes</b>, choose a conformity method below.</div>
-        <div class="field-grid c2">
-          <div><span class="box-label">Conformity Option</span><div class="field-value">Self-Declaration / Manufacturer Certificate / Third-Party Lab Report</div></div>
-          <div><span class="box-label">Reference / Certificate No.</span><div class="field-value">&mdash;</div></div>
-        </div>
-        <div class="wizard-actions"><button class="btn secondary" onclick="goTo('sec-3')">&larr; Back</button><button class="btn primary" onclick="goTo('sec-5')">Continue to Document &rarr;</button></div>
+      <div class="wizard-actions">
+        <a href="client-invoices.html" class="btn secondary" style="text-decoration:none;">View Invoice</a>
+        <div class="grp"><a href="client-service-requests.html" class="btn secondary" style="text-decoration:none;">&larr; Back to Service Requests</a></div>
       </div>
-
-      <!-- STEP 5: Document -->
-      <div class="section-card" id="sec-5">
-        <h2>5 &middot; Documents</h2>
-        <div class="sub">Documents already on file auto-populate; upload additional ones if required.</div>
-        <table>
-          <tr><th>Sr.No</th><th>Document Name</th><th>Source</th><th>Action</th></tr>
-          <tr><td>1</td><td>Manual</td><td>Auto-populated</td><td><span class="upload-box done">manual_dx200.pdf &#10003;</span></td></tr>
-          <tr><td>2</td><td>Technical Specification</td><td>Auto-populated</td><td><span class="upload-box done">tech_spec.pdf &#10003;</span></td></tr>
-          <tr><td>3</td><td>Functional Documents</td><td>Not on file</td><td><span class="upload-box">Drag file or Browse&hellip;</span></td></tr>
-          <tr><td>4</td><td>Drawing</td><td>Optional</td><td><span class="upload-box">Drag file or Browse&hellip;</span></td></tr>
-          <tr><td>5</td><td>Test Plan</td><td>Optional</td><td><span class="upload-box">Drag file or Browse&hellip;</span></td></tr>
-        </table>
-        <div class="wizard-actions"><button class="btn secondary" onclick="goTo('sec-4')">&larr; Back</button><button class="btn primary" onclick="goTo('sec-6')">Continue to Terms &rarr;</button></div>
-      </div>
-
-      <!-- STEP 6: Terms -->
-      <div class="section-card" id="sec-6">
-        <h2>6 &middot; Terms and Conditions</h2>
-        <div class="field-value" style="min-height:120px;line-height:1.9;padding:16px;">
-          &#9744; I confirm the details furnished above are true and correct.<br>
-          &#9744; I agree to the EMI/EMC testing charges as per the applicable rate card.<br>
-          &#9744; I understand test results are valid only for the sample/device submitted.<br>
-          &#9744; I agree to C-DAC&rsquo;s cancellation &amp; refund policy.
-        </div>
-        <div class="wizard-actions"><button class="btn secondary" onclick="goTo('sec-5')">&larr; Back</button><button class="btn primary" onclick="goTo('sec-7')">Continue to Preview &rarr;</button></div>
-      </div>
-
-      <!-- STEP 7: Preview -->
-      <div class="section-card" id="sec-7">
-        <h2>7 &middot; Preview</h2>
-        <div class="sub">Full read-only summary of the request before submission.</div>
-        <div class="field-grid c2">
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Applicant / Organization</b><div class="sub" style="margin:4px 0 0;">M/s ABC Instruments Pvt. Ltd. &middot; GSTIN 29AAAAA0000A1Z5</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Basic Details</b><div class="sub" style="margin:4px 0 0;">Purpose: Type Approval &middot; Standard: CISPR 32</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Item / Device Details</b><div class="sub" style="margin:4px 0 0;" id="previewDevice">No device selected yet</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Test / Service Selection</b><div class="sub" style="margin:4px 0 0;">Radiated &amp; Conducted Emission Test (CISPR 32)</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Conformity</b><div class="sub" style="margin:4px 0 0;">Lab: EMI/EMC Lab Bengaluru &middot; Statement: Yes (Self-Declaration)</div></div>
-          <div class="section-card" style="margin:0;padding:14px 16px;"><b style="font-size:12.5px;">Documents</b><div class="sub" style="margin:4px 0 0;">5 documents attached</div></div>
-        </div>
-        <div class="wizard-actions"><button class="btn secondary" onclick="goTo('sec-6')">&larr; Back</button><button class="btn primary" onclick="goTo('sec-8')">Continue to Draft Quotation &rarr;</button></div>
-      </div>
-
-      <!-- STEP 8: Draft Quotation -->
-      <div class="section-card" id="sec-8">
-        <h2>8 &middot; Draft Quotation</h2>
-        <div class="side-note">Carried forward from Step 3. No pricing is shown &mdash; rates, Quote Date and Expiry Date are set entirely by Admin after review.</div>
-        <table>
-          <tr><th>Test / Activity</th><th>Specification</th><th>Qty</th></tr>
-          <tr><td>Radiated Emission Test</td><td>CISPR 32</td><td>1</td></tr>
-          <tr><td>Conducted Emission Test</td><td>CISPR 32</td><td>1</td></tr>
-          <tr><td>Witness Charges</td><td>&mdash;</td><td>0</td></tr>
-        </table>
-        <div style="margin-top:14px;font-size:11.5px;color:var(--text-mute);">Quote Date: <i>&mdash; set by Admin</i> &nbsp;|&nbsp; Expiry Date: <i>&mdash; set by Admin</i> &nbsp;|&nbsp; Amount: <i>&mdash; set by Admin</i></div>
-        <div style="margin-top:10px;font-size:11.5px;color:var(--text-faint);">Once submitted, this request moves to Admin for quotation generation. You&rsquo;ll be notified when the official quotation is ready to review.</div>
-        <div class="wizard-actions">
-          <button class="btn secondary" onclick="goTo('sec-7')">&larr; Back</button>
-          <div class="grp">
-            <a href="client-dashboard.html" class="btn secondary" style="text-decoration:none;">Save as Draft</a>
-            <a href="client-request-tracking.html" class="btn primary" style="text-decoration:none;">Submit Request &rarr;</a>
-          </div>
-        </div>
-      </div>
-
-      <script>
-        const sectionOrder = ['sec-1','sec-2','sec-3','sec-4','sec-5','sec-6','sec-7','sec-8'];
-        const steps = Array.from(document.querySelectorAll('#stepper .step'));
-
-        function goTo(id){
-          document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
-          history.replaceState(null, '', '#' + id);
-        }
-
-        steps.forEach(step => {
-          step.style.cursor = 'pointer';
-          step.addEventListener('click', () => goTo(step.dataset.target));
-        });
-
-        const sections = sectionOrder.map(id => document.getElementById(id));
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if(entry.isIntersecting){
-              const idx = sectionOrder.indexOf(entry.target.id);
-              steps.forEach((step, i) => {
-                step.classList.remove('active','done');
-                if(i < idx) step.classList.add('done');
-                else if(i === idx) step.classList.add('active');
-              });
-            }
-          });
-        }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-        sections.forEach(sec => observer.observe(sec));
-
-        function applyDevice(sel){
-          const opt = sel.options[sel.selectedIndex];
-          if(!opt.value){
-            document.getElementById('f-serial').textContent = '\u2014';
-            document.getElementById('f-mfr').textContent = '\u2014';
-            document.getElementById('f-model').textContent = '\u2014';
-            document.getElementById('savedDeviceRow').style.display = 'none';
-            document.getElementById('emptyDeviceRow').style.display = '';
-            document.getElementById('previewDevice').textContent = 'No device selected yet';
-            return;
-          }
-          const serial = opt.dataset.serial, mfr = opt.dataset.mfr, model = opt.dataset.model;
-          const name = opt.textContent.split(' (')[0];
-          document.getElementById('f-serial').textContent = serial;
-          document.getElementById('f-mfr').textContent = mfr;
-          document.getElementById('f-model').textContent = model;
-          document.getElementById('f-nomenclature').value = name;
-
-          document.getElementById('sd-nom').textContent = name;
-          document.getElementById('sd-serial').textContent = serial;
-          document.getElementById('sd-model').textContent = model;
-          document.getElementById('savedDeviceRow').style.display = '';
-          document.getElementById('emptyDeviceRow').style.display = 'none';
-
-          document.getElementById('previewDevice').textContent = name + ' \u00b7 Serial ' + serial + ' \u00b7 Qty 1';
-        }
-
-        if(location.hash && sectionOrder.includes(location.hash.slice(1))){
-          setTimeout(() => goTo(location.hash.slice(1)), 50);
-        }
-      </script>
 
     </div>
   </div>
